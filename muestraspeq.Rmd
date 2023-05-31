@@ -1,0 +1,270 @@
+---
+title: "Muestras pequeñas"
+author: "Gerardo Hernandez Mondragon"
+date: "18-003-1784"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 2.1.2 Muestras pequeñas
+
+1. Intervalo de confianza del 95 % para la altura media poblacional de los estudiantes de una universidad con una
+muestra de 10 estudiantes:
+Tamaño de la muestra (n): 10
+Media muestral (x): 170 cm
+Desviación estándar muestral (s): 8 cm
+
+```{r }
+n <- 10
+xbarra <- 170
+DesvEst <- 8
+gl <- n-1
+nc <- 0.95
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")cm"); 
+print(Intervalo)
+```
+
+2. Intervalo de confianza del 90 % para el peso medio poblacional de los recién nacidos con una muestra de 15
+bebés
+Tamaño de la muestra (n): 15
+Media muestral (x): 3.5 kg
+Desviación estándar muestral (s): 0.5 kg
+
+```{r }
+n <- 15
+xbarra <- 3.5
+DesvEst <- 0.5
+gl <- n-1
+nc <- 0.90
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")kg"); 
+print(Intervalo)
+```
+
+3. Intervalo de confianza del 99 para la duración media de las baterías de un dispositivo electrónico con una
+muestra de 84 dispositivos:
+Tamaño de la muestra (n): 84
+Media muestral (x): 30 horas
+Desviación estándar muestral (s): 5 horas
+
+```{r }
+n <- 84
+xbarra <- 30
+DesvEst <- 5
+gl <- n-1
+nc <- 0.99
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")horas"); 
+print(Intervalo)
+```
+
+4. Intervalo de confianza del 95 % para el número medio de días de hospitalización de pacientes con una muestra
+de 12 pacientes: 
+Tamaño de la muestra (n): 12 
+Media muestral (x): 5 días 
+Desviación estándar muestral (s): 2días
+
+```{r }
+n <- 12
+xbarra <- 5
+DesvEst <- 2
+gl <- n-1
+nc <- 0.95
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")dias"); 
+print(Intervalo)
+```
+
+5. Intervalo de confianza del 99 % para la media poblacional de la concentración de un compuesto en una muestra
+de agua con una muestra de 7 mediciones: 
+Tamaño de la muestra (n): 7 
+Media muestral (x): 4 mg/L
+Desviación estándar muestral (s): 1 mg/L
+
+```{r }
+n <- 7
+xbarra <- 4
+DesvEst <- 1
+gl <- n-1
+nc <- 0.99
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mg/L"); 
+print(Intervalo)
+```
+
+6. Intervalo de confianza del 95 % para la altura media de una muestra de 8 plantas: 
+Tamaño de la muestra (n): 8
+Media muestral (x): 12 cm 
+Desviación estándar muestral (s): 2 cm 
+Nivel de confianza: 95 %
+
+```{r }
+n <- 8
+xbarra <- 12
+DesvEst <- 2
+gl <- n-1
+nc <- 0.95
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")cm"); 
+print(Intervalo)
+```
+
+7. Intervalo de confianza del 90 % para el tiempo medio de reacción de un grupo de 6 sujetos: 
+Tamaño de la muestra (n): 6 
+Media muestral (x): 0.3 segundos 
+Desviación estándar muestral (s): 0.05 segundos
+
+```{r }
+n <- 6
+xbarra <- 0.3
+DesvEst <- 0.05
+gl <- n-1
+nc <- 0.90
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")cm"); 
+print(Intervalo)
+```
+
+8. Intervalo de confianza del 99 % para la resistencia media de un lote de 10 piezas de acero: 
+Tamaño de la muestra (n): 10 
+Media muestral (x): 750 MPa 
+Desviación estándar muestral (s): 25 MPa
+
+```{r }
+n <- 10
+xbarra <- 750
+DesvEst <- 25
+gl <- n-1
+nc <- 0.99
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mPa"); 
+print(Intervalo)
+```
+
+9. Intervalo de confianza del 95 % para la concentración media de un compuesto en una muestra de 12 aguas subterráneas: 
+Tamaño de la muestra (n): 12 
+Media muestral (x): 5 mg/L 
+Desviación estándar muestral (s): 1.5 mg/L
+
+```{r }
+n <- 12
+xbarra <- 5
+DesvEst <- 1.5
+gl <- n-1
+nc <- 0.95
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mg/L"); 
+print(Intervalo)
+```
+
+10. Intervalo de confianza del 95 % para la eficiencia media de una muestra de 20 paneles solares: 
+Tamaño de la muestra (n): 20 
+Media muestral (x): 80 % 
+Desviación estándar muestral (s): 4 %
+
+```{r }
+n <- 20
+xbarra <- 80
+DesvEst <- 4
+gl <- n-1
+nc <- 0.95
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈
+","(",round(mu1,2),",",round(mu2,2),")%"); 
+print(Intervalo)
+```
+
+11. Intervalo de confianza del 90 % para la concentración media de un compuesto en una muestra de 15 suelos:
+Tamaño de la muestra (n): 15 
+Media muestral (x): 0.3 mg/g 
+Desviación estándar muestral (s): 0.05 mg/g 
+Nivel de confianza: 90 %
+
+```{r }
+n <- 15
+xbarra <- 0.3
+DesvEst <- 0.05
+gl <- n-1
+nc <- 0.90
+
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mg/g"); 
+print(Intervalo)
+```
+
+12. concentración media de un producto químico en una muestra de 25 aguas subterráneas: 
+Tamaño de la muestra (n): 25 
+Media muestral (x): 10.2 mg/L 
+Desviación estándar muestral (s): 2.3 mg/L
+supongamos un nivelde confianza de un 99%
+
+```{r }
+n <- 25
+xbarra <- 10.2
+DesvEst <- 2.3
+gl <- n-1
+nc <- 0.99
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mg/L"); 
+print(Intervalo)
+```
+
+13. Intervalo de confianza del 99% para la tasa de error medio de un sistema de comunicaciones que transmite 5000 mensajes:
+Tamaño de la muestra (n): 5000
+Número de mensajes erróneos (x): 25
+Proporción muestral (p̂): x / n = 25 / 5000 = 0.005
+
+```{r }
+n <- 5000
+xbarra <- 25
+DesvEst <- 1.5
+gl <- n-1
+nc <- 0.95
+
+Talpha2 <- round(qt(nc, gl),4)
+mu1 <- xbarra - Talpha2*(DesvEst/sqrt(n)); 
+mu2 <- xbarra + Talpha2*(DesvEst/sqrt(n)); 
+Intervalo <- paste0("mu ∈  ","(",round(mu1,2),",",round(mu2,2),")mg/L"); 
+print(Intervalo)
+```

@@ -1,0 +1,1759 @@
+---
+title: "Libro de ejercicios de estadistica y probabilidad"
+author: "Gerardo Hernandez Mondragon"
+date: "18-003-1784"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Variables aleatorias discretas
+
+## Distribución Uniforme
+
+**Resuelve los siguientes problemas relacionados con la variable aleatoria uniforme discreta.**
+
+1. Un juego de dados que justo se lanza tres veces. ¿Cuál es la probabilidad de obtener una suma de 10?
+
+```{r}
+ probabilidad_suma_10 <- function() {
+ for (dado1 in 1:6) {
+ for (dado2 in 1:6) {
+ if ((dado1 + dado2) == 10) { resultados_favorables <- resultados_favorables + 1 }
+ }
+ }
+ probabilidad <- resultados_favorables / (6^2)
+ cat("La probabilidad de obtener una suma de 10 al lanzar tres dados es:",
+ probabilidad * 100, "%")
+}
+```
+
+2. Una urna contiene 10 bolas numeradas del 1 al 10. Si se elige una bola al azar, ¿cuál es la probabilidad de que sea un número par?
+
+```{r}
+num_bolas_pares <- 5
+num_total_bolas <- 10
+probabilidad_par <- num_bolas_pares / num_total_bolas
+cat("La probabilidad de elegir una bola par al azar es:",
+ probabilidad_par * 100, "%")
+```
+
+3. Un fabricante de piezas de repuesto sabe que el 5% de las piezas que produce son defectuosas. Si se eligen aleatoriamente 5 piezas, ¿cuál es la probabilidad de que al menos una de ellas sea defectuosa?
+
+```{r}
+probabilidad_defectuosa <- 1 - (0.95)^5
+cat("La probabilidad de que al menos una de las 5 piezas sea defectuosa es:",
+ probabilidad_defectuosa * 100, "%")
+```
+
+4. Un fabricante de cartas de póker quiere asegurarse de que todas las cartas tengan la misma probabilidad de ser seleccionadas al azar. ¿Cuántas cartas debe incluir en su mazo?
+
+```{r}
+num_cartas <- 52
+cat("El mazo debe incluir", num_cartas, "cartas.")
+```
+
+5. Un estudiante elige al azar una página de un libro y cuenta el número de palabras que contiene. Si el libro tiene 200 páginas y un promedio de 1000 palabras por página, ¿cuál es la probabilidad de que el número de palabras en una página elegida al azar esté entre 900 y 1100?
+
+```{r}
+# Calcular la probabilidad utilizando la aproximacion con la distribucion normal estandar. Definir los limites inferiores y superiores
+limite_inferior <- 900
+limite_superior <- 1100
+media <- 1000
+desviacion_estandar <- 100
+z_inferior <- (limite_inferior - media) / desviacion_estandar
+z_superior <- (limite_superior - media) / desviacion_estandar
+probabilidad <- pnorm(z_superior) - pnorm(z_inferior)
+cat("La probabilidad de que el numero de palabras en una pagina
+ elegida al azar este entre 900 y 1100 es:", probabilidad * 100, "%")
+```
+
+6. Un vendedor de seguros tiene 10 pólizas que puede vender. Si se eligen al azar 3 pólizas, ¿cuál es la probabilidad de que al menos una de ellas sea vendida?
+
+```{r}
+num_casos_fav <- choose(10, 3)
+num_total_casos <- choose(10, 3)
+probabilidad_ninguna_vendida <- num_casos_fav / num_total_casos
+probabilidad_vendida <- 1 - probabilidad_ninguna_vendida
+cat("La probabilidad de que al menos una de las tres polizas sea vendida es:",
+ probabilidad_vendida * 100, "%")
+```
+
+7. Un fabricante de dulces quiere que cada bolsa contenga una cantidad igual de caramelos de cada sabor. Si hay 4 sabores de caramelos y cada bolsa contiene 20 caramelos, ¿cuál es la probabilidad de que haya exactamente 5 caramelos de cada sabor en una bolsa seleccionada al azar?
+
+```{r}
+num_casos_fav <- choose(20, 5)
+num_total_casos <- choose(20, 5) * choose(15, 5) * choose(10, 5) * choose(5, 5)
+probabilidad <- num_casos_fav / num_total_casos
+cat("La probabilidad de que haya exactamente 5 caramelos de cada sabor
+ en una bolsa seleccionada al azar es:", probabilidad * 100, "%")
+```
+
+8. Una persona lanza una moneda 5 veces. ¿Cuál es la probabilidad de que obtenga exactamente 2 caras?
+
+```{r}
+num_casos_fav <- choose(5, 2)
+num_total_casos <- 2^5
+probabilidad <- num_casos_fav / num_total_casos
+cat("La probabilidad de obtener exactamente 2 caras al lanzar
+ una moneda 5 veces es:", probabilidad * 100, "%")
+```
+
+9. Un jugador de fútbol tiene una tasa de éxito del 80% en tiros libres. Si tira 5 tiros libres, ¿cuál es la probabilidad de que haga exactamente 4 goles?
+
+```{r}
+num_casos_fav <- choose(5, 4)
+probabilidad_gol <- 0.8
+probabilidad_no_gol <- 1 - probabilidad_gol
+num_total_casos <- probabilidad_gol^4 * probabilidad_no_gol
+probabilidad <- num_casos_fav * num_total_casos
+cat("La probabilidad de que el jugador haga exactamente 4 goles
+ en 5 tiros libres es:", probabilidad * 100, "%")
+```
+
+10  Se lanza un dado justo hasta obtener un número par. ¿Cuál es la probabilidad de que se necesiten al menos 3 lanzamientos?
+
+```{r}
+probabilidad_max_2_lanzamientos <- 1/4
+probabilidad_al_menos_3_lanzamientos <- 1 - probabilidad_max_2_lanzamientos
+cat("La probabilidad de que se necesiten al menos 3 lanzamientos es:",
+ probabilidad_al_menos_3_lanzamientos * 100, "%")
+```
+
+## Distribución Bernoulli
+
+**Resuelve los siguientes problemas relacionados con la Distribución Bernoulli.**
+
+1. Un jugador de baloncesto tiene una tasa de acierto del 70% en tiros libres. ¿Cuál es la probabilidad de que haga el primer tiro libre?
+
+```{r}
+probabilidad_exito <- 0.70
+probabilidad_primer_tiro_libre <- probabilidad_exito
+cat("La probabilidad de que el jugador haga el primer tiro libre es:",
+ probabilidad_primer_tiro_libre * 100, "%")
+```
+
+2. Un anuncio en línea tiene una tasa de clics del 2%. Si se muestra el anuncio a 1000 personas, ¿cuál es la probabilidad de que exactamente 20 personas hagan clic en él?
+
+```{r}
+n <- 1000
+k <- 20
+p <- 0.02
+probabilidad_20_clics <- choose(n, k) * p^k * (1 - p)^(n - k)
+cat("La probabilidad de que exactamente 20 personas hagan clic
+ en el anuncio es:", probabilidad_20_clics * 100, "%")
+```
+
+3. Un fabricante de bombillas sabe que el 3% de las bombillas que produce son defectuosas. Si se elige una bombilla al azar, ¿cuál es la probabilidad de que sea defectuosa?
+
+```{r}
+probabilidad_defectuosa <- 0.03
+cat("La probabilidad de que una bombilla seleccionada al azar
+ sea defectuosa es:", probabilidad_defectuosa * 100, "%")
+```
+
+4. Un jugador de fútbol americano tiene una tasa de éxito del 90% en tiros de campo. Si intenta un tiro de campo, ¿cuál es la probabilidad de que tenga éxito?
+
+```{r}
+probabilidad_exito <- 0.90
+cat("La probabilidad de que el jugador tenga exito en un intento
+ de tiro de campo es:", probabilidad_exito * 100, "%")
+```
+
+5. La probabilidad de que un jugador de baloncesto haga un tiro libre es de 0.85. Si un jugador tira un solo tiro libre, ¿cuál es la probabilidad de que lo haga?
+
+```{r}
+probabilidad_exito <- 0.85
+cat("La probabilidad de que el jugador haga un tiro libre es:",
+ probabilidad_exito * 100, "%")
+```
+
+6. La probabilidad de que una persona enferma de gripe tenga fiebre es de 0.9. Si se selecciona aleatoriamente a una persona enferma de gripe, ¿cuál es la probabilidad de que tenga fiebre?
+
+```{r}
+probabilidad_exito <- 0.9
+cat("La probabilidad de que una persona enferma de gripe tenga
+ fiebre es:", probabilidad_exito * 100, "%")
+```
+
+7. La probabilidad de que un estudiante apruebe un examen es de 0.6. Si se selecciona aleatoriamente a un estudiante, ¿cuál es la probabilidad de que apruebe su examen?
+
+```{r}
+probabilidad_exito <- 0.6
+cat("La probabilidad de que un estudiante apruebe su examen es:",
+ probabilidad_exito * 100, "%")
+```
+
+8. La probabilidad de que una persona que juega a la ruleta gane en una ronda es de 0.2. Si una persona juega una sola ronda, ¿cuál es la probabilidad de que gane?
+
+```{r}
+probabilidad_exito <- 0.2
+cat("La probabilidad de que una persona gane en una ronda de
+ ruleta es:", probabilidad_exito * 100, "%")
+```
+
+9. La probabilidad de que una persona contratada por una empresa sea un buen empleado es de 0.7. Si una empresa contrata a una sola persona, ¿cuál es la probabilidad de que sea un buen empleado?
+
+```{r}
+probabilidad_exito <- 0.7
+cat("La probabilidad de que una persona contratada sea un buen
+ empleado es:", probabilidad_exito * 100, "%")
+```
+
+10. La probabilidad de que una persona en una ciudad determinada tenga seguro médico es de 0.4. Si se selecciona aleatoriamente a una persona en la ciudad, ¿cuál es la probabilidad de que tenga seguro médico?
+
+```{r}
+probabilidad_exito <- 0.4
+cat("La probabilidad de que una persona tenga seguro medico es:",
+ probabilidad_exito * 100, "%")
+```
+
+11. La probabilidad de que una persona llegue a tiempo a una cita es de 0.8. Si una persona tiene una sola cita, ¿cuál es la probabilidad de que llegue a tiempo?
+
+```{r}
+probabilidad_exito <- 0.8
+cat("La probabilidad de que una persona llegue a tiempo a
+ su cita es:", probabilidad_exito * 100, "%")
+```
+
+12. La probabilidad de que un estudiante se enferme durante un semestre es de 0.3. Si se selecciona aleatoriamente a un estudiante, ¿cuál es la probabilidad de que se enferme durante el semestre?
+
+```{r}
+probabilidad_exito <- 0.3
+cat("La probabilidad de que un estudiante se enferme durante el
+ semestre es:", probabilidad_exito * 100, "%")
+```
+
+13. La probabilidad de que un equipo de fútbol gane un partido es de 0.6. Si un equipo juega un solo partido, ¿cuál es la probabilidad de que gane?
+
+```{r}
+probabilidad_exito <- 0.6
+cat("La probabilidad de que un equipo de futbol gane un partido es:",
+ probabilidad_exito * 100, "%")
+```
+
+14. La probabilidad de que una persona responda correctamente una pregunta en un examen de opción múltiple es de 0.25. Si una persona responde una sola pregunta, ¿cuál es la probabilidad de que responda correctamente?
+
+```{r}
+probabilidad_exito <- 0.25
+cat("La probabilidad de que una persona responda correctamente
+ una pregunta es:", probabilidad_exito * 100, "%")
+```
+
+## Distribución Binomial
+
+**Resuelve los siguientes problemas relacionados con la distribución binimial**
+
+1. Una fábrica de chocolate sabe que el 10% de sus barras de chocolate tienen algún defecto. Si se seleccionan al azar 5 barras, ¿cuál es la probabilidad de que al menos una tenga defectos?
+
+```{r}
+probabilidad_exito <- 0.1
+n <- 5
+probabilidad_complementaria <- 1 - dbinom(0, n, probabilidad_exito)
+cat("La probabilidad de que al menos una barra tenga defectos es:"
+ , probabilidad_complementaria * 100, "%")
+```
+
+2. Un agente de bienes raíces sabe que la probabilidad de que un comprador cierre un trato es del 40%. Si el agente tiene 8 posibles compradores interesados, ¿cuál es la probabilidad de que exactamente 3 cierren un trato?
+
+```{r}
+probabilidad_exito <- 0.4
+n <- 8
+k <- 3
+probabilidad_exactamente_tres <- dbinom(k, n, probabilidad_exito)
+cat("La probabilidad de que exactamente 3 compradores cierren
+ un trato es:", probabilidad_exactamente_tres * 100, "%")
+```
+
+3. Un equipo de béisbol tiene una tasa de éxito del 70% en bateo. Si el equipo batea 25 veces, ¿cuál es la probabilidad de que al menos 18 de los bateos sean exitosos?
+
+```{r}
+probabilidad_exito <- 0.7
+n <- 25
+k <- 18
+probabilidad_al_menos_dieciocho <- sum(dbinom(k:n, n, probabilidad_exito))
+cat("La probabilidad de que al menos 18 bateos sean exitosos es:",
+ probabilidad_al_menos_dieciocho * 100, "%")
+```
+
+4. Una empresa de marketing sabe que la tasa de respuesta a un correo electrónico es del 20%. Si envían 100 correos electrónicos, ¿cuál es la probabilidad de que menos de 10 personas respondan?
+
+```{r}
+probabilidad_exito <- 0.2
+n <- 100
+k <- 9
+probabilidad_menos_de_diez <- sum(dbinom(0:k, n, probabilidad_exito))
+cat("La probabilidad de que menos de 10 personas respondan es:",
+ probabilidad_menos_de_diez * 100, "%")
+```
+
+5. Un investigador sabe que la probabilidad de que un ratón de laboratorio tenga una mutación específica es del 5%. Si el investigador utiliza 30 ratones, ¿cuál es la probabilidad de que al menos uno tenga la mutación?
+
+```{r}
+probabilidad_exito <- 0.05
+n <- 30
+probabilidad_al_menos_uno <- 1 - dbinom(0, n, probabilidad_exito)
+cat("La probabilidad de que al menos uno de los ratones tenga
+ la mutacion es:", probabilidad_al_menos_uno * 100, "%")
+```
+
+6. Una compañía de seguros sabe que la probabilidad de que un cliente haga un reclamo es del 10%. Si la compañía tiene 500 clientes, ¿cuál es la probabilidad de que al menos 50 hagan un reclamo?
+
+```{r}
+probabilidad_exito <- 0.1
+n <- 500
+k <- 50
+probabilidad_al_menos_cincuenta <- sum(dbinom(k:n, n, probabilidad_exito))
+cat("La probabilidad de que al menos 50 clientes hagan un reclamo es:",
+ probabilidad_al_menos_cincuenta * 100, "%")
+```
+
+7. Un centro de llamadas sabe que la probabilidad de que un agente cierre una venta es del 25%. Si el centro de llamadas tiene 20 agentes, ¿cuál es la probabilidad de que al menos 5 cierren ventas en un día?
+
+```{r}
+probabilidad_exito <- 0.1
+n <- 500
+k <- 50
+probabilidad_al_menos_cincuenta <- sum(dbinom(k:n, n, probabilidad_exito))
+cat("La probabilidad de que al menos 50 clientes hagan un reclamo es:",
+ probabilidad_al_menos_cincuenta * 100, "%")
+```
+
+8. Un fabricante de juguetes sabe que la probabilidad de que un juguete sea defectuoso es del 5%. Si se producen 200 juguetes, ¿cuál es la probabilidad de que exactamente 15 sean defectuosos?
+
+```{r}
+probabilidad_exito <- 0.05
+n <- 200
+k <- 15
+probabilidad_15_defectuosos <- dbinom(k, n, probabilidad_exito)
+cat("La probabilidad de que exactamente 15 juguetes sean defectuosos es:",
+ probabilidad_15_defectuosos * 100, "%")
+```
+
+9. Un casino sabe que la probabilidad de que un jugador gane en la ruleta es del 47%. Si un jugador juega 10 rondas, ¿cuál es la probabilidad de que gane al menos 6 rondas?
+
+```{r}
+probabilidad_exito <- 0.47
+n <- 10
+k <- 6
+probabilidad_al_menos_seis <- sum(dbinom(k:n, n, probabilidad_exito))
+cat("La probabilidad de que el jugador gane al menos 6 rondas es:",
+ probabilidad_al_menos_seis * 100, "%")
+```
+
+10. Una tienda de ropa sabe que la probabilidad de que un cliente compre un artículo es del 30%. Si 50 clientes entran a la tienda, ¿cuál es la probabilidad de que al menos 10 compren algún artículo?
+
+```{r}
+probabilidad_exito <- 0.30
+n <- 50
+k <- 10
+probabilidad_al_menos_diez <- sum(dbinom(k:n, n, probabilidad_exito))
+cat("La probabilidad de que al menos 10 clientes compren algun articulo es:",
+ probabilidad_al_menos_diez * 100, "%")
+```
+
+## Distribución Poisson
+
+**Resuelve los siguientes problemas relacionados con la distribución poisson**
+
+1. Una tienda de abarrotes recibe un promedio de 5 clientes por hora. ¿Cuál es la probabilidad de que lleguen exactamente 10 clientes en las próximas dos horas?
+
+```{r}
+lambda <- 5
+k <- 10
+probabilidad_10_clientes <- dpois(k, lambda * 2)
+cat("La probabilidad de que lleguen exactamente 10 clientes en las
+ proximas dos horas es:", probabilidad_10_clientes * 100, "%")
+```
+
+2. Un centro de llamadas recibe en promedio 15 llamadas por hora. ¿Cuál es la probabilidad de que reciban al menos 20 llamadas en una hora determinada?
+
+```{r}
+lambda <- 15
+k <- 20
+probabilidad_al_menos_20_llamadas <- 1 - ppois(k-1, lambda)
+cat("La probabilidad de que reciban al menos 20 llamadas en una
+ hora determinada es:", probabilidad_al_menos_20_llamadas * 100, "%")
+```
+
+3. Un restaurante recibe un promedio de 3 quejas de clientes por día. ¿Cuál es la probabilidad de que reciba exactamente 2 quejas en un día?
+
+```{r}
+lambda <- 3
+k <- 2
+probabilidad_exactamente_2_quejas <- dpois(k, lambda)
+cat("La probabilidad de que el restaurante reciba exactamente 2
+ quejas en un dia es:", probabilidad_exactamente_2_quejas * 100, "%")
+```
+
+4. Una empresa de envío de paquetes recibe un promedio de 4 paquetes por hora. ¿Cuál es la probabilidad de que reciban al menos 6 paquetes en una hora determinada?
+
+```{r}
+lambda <- 4
+k <- 5
+probabilidad_al_menos_6_paquetes <- 1 - ppois(k, lambda)
+cat("La probabilidad de que la empresa reciba al menos 6 paquetes en
+ una hora es:", probabilidad_al_menos_6_paquetes * 100, "%")
+```
+
+5. Un médico atiende un promedio de 2 pacientes por hora. ¿Cuál es la probabilidad de que atienda exactamente 5 pacientes en un período de 3 horas?
+
+```{r}
+lambda <- 2
+k <- 5
+probabilidad_5_pacientes <- dpois(k, lambda * 3)
+cat("La probabilidad de que el medico atienda exactamente 5 pacientes
+ en un periodo de 3 horas es:", probabilidad_5_pacientes * 100, "%")
+```
+
+6. Un canal de noticias transmite un promedio de 3 noticias de última hora por día. ¿Cuál es la probabilidad de que transmitan exactamente 2 noticias de última hora en un día determinado?
+
+```{r}
+lambda <- 3
+k <- 2
+probabilidad_2_noticias <- dpois(k, lambda)
+cat("La probabilidad de que el canal de noticias transmita exactamente
+ 2 noticias de ultima hora en un dia determinado es:",
+ probabilidad_2_noticias * 100, "%")
+```
+
+7. Una fábrica produce un promedio de 10 piezas defectuosas por día. ¿Cuál es la probabilidad de que produzcan al menos 15 piezas defectuosas en un día determinado?
+
+```{r}
+lambda <- 10
+k <- 15
+probabilidad_al_menos_15_defectuosas <- 1 - ppois(k - 1, lambda)
+cat("La probabilidad de que la fabrica produzca al menos 15 piezas
+ defectuosas en un dia determinado es:",
+ probabilidad_al_menos_15_defectuosas * 100, "%")
+```
+
+8. Un equipo de fútbol anota en promedio 2 goles por partido. ¿Cuál es la probabilidad de que anoten exactamente 3 goles en un partido determinado?
+
+```{r}
+lambda <- 2
+k <- 3
+probabilidad_exactamente_3_goles <- dpois(k, lambda)
+cat("La probabilidad de que el equipo anote exactamente
+ 3 golesen un partido determinado es:",
+ probabilidad_exactamente_3_goles * 100, "%")
+```
+
+9. Un supermercado vende en promedio 20 paquetes de arroz por día. ¿Cuál es la probabilidad de que vendan menos de 15 paquetes de arroz en un día determinado?
+
+```{r}
+lambda <- 20
+k <- 15
+probabilidad_menos_de_15_paquetes <- ppois(k-1, lambda)
+cat("La probabilidad de que el supermercado venda menos de 15
+ paquetes de arroz en un dia determinado es:",
+ probabilidad_menos_de_15_paquetes * 100, "%")
+```
+
+10. Una empresa de taxis recibe en promedio 8 solicitudes de viaje por hora. ¿Cuál es la probabilidad de que reciban al menos 12 solicitudes de viaje en una hora determinada?
+
+```{r}
+lambda <- 8
+k <- 12
+probabilidad_al_menos_12_solicitudes <- 1 - ppois(k-1, lambda)
+cat("La probabilidad de que la empresa de taxis reciba al menos 12
+ solicitudes de viaje en una hora determinada es:",
+ probabilidad_al_menos_12_solicitudes * 100, "%")
+```
+
+## Distribución Geométrica
+
+**Plantea y resuelve los siguientes problemas relacionados con la distribución geométrica**
+
+1. La probabilidad de que un equipo de baloncesto anote un punto en un tiro libre es del 70%. La distribución geométrica se puede usar para calcular la probabilidad de que un jugador necesite más de un intento para anotar un tiro libre.
+
+```{r}
+prob_exito <- 0.70
+prob_anotar_primer_intent <- prob_exito
+prob_necesitar_mas_intent <- 1 - prob_anotar_primer_intent
+prob_necesitar_mas_intent
+```
+
+2. Un sitio web tiene una tasa de conversión del 5%, lo que significa que el 5% de los visitantes del sitio web se convierten en clientes. La distribución geométrica se puede usar para calcular la probabilidad de que se necesiten más de 10 visitas al sitio web para obtener un cliente.
+
+```{r}
+p <- 0.05
+prob_acum_10 <- pgeom(10, prob = p)
+prob_mas_10 <- 1 - prob_acum_10
+prob_mas_10
+```
+
+3. Un restaurante tiene una probabilidad del 20% de que un cliente ordene un postre. La distribución geométrica se puede usar para calcular la probabilidad de que se necesiten más de 5 clientes antes de que alguien ordene un postre.
+
+```{r}
+p <- 0.2
+prob_acum_5 <- pgeom(5, prob = p)
+prob_mas_5 <- 1 - prob_acum_5
+prob_mas_5
+```
+
+4. Un jugador de póker tiene una probabilidad del 2% de recibir un as en su mano inicial. La distribución geométrica se puede usar para calcular la probabilidad de que el jugador necesite más de 3 manos para recibir su primer as.
+
+```{r}
+p <- 0.02
+prob_acum_3 <- pgeom(3, prob = p)
+prob_mas_3 <- 1 - prob_acum_3
+prob_mas_3
+```
+
+5. Una empresa de marketing envía correos electrónicos a una lista de clientes potenciales. La probabilidad de que un cliente potencial abra el correo electrónico es del 10%. La distribución geométrica se puede usar para calcular la probabilidad de que se necesiten más de 5 correos electrónicos para que un cliente potencial abra uno.
+
+```{r}
+p <- 0.1
+prob_acum_5 <- pgeom(5, prob = p)
+prob_mas_5 <- 1 - prob_acum_5
+prob_mas_5
+```
+
+6. Un jugador de béisbol tiene una probabilidad del 25% de conectar una pelota en un turno al bate. La distribución geométrica se puede usar para calcular la probabilidad de que el jugador necesite más de 4 turnos al bate para conectar su primer hit.
+
+```{r}
+p <- 0.25
+prob_acum_4 <- pgeom(4, prob = p)
+prob_mas_4 <- 1 - prob_acum_4
+prob_mas_4
+```
+
+7. Un vendedor tiene una probabilidad del 30% de cerrar una venta en una llamada de ventas. La distribución geométrica se puede usar para calcular la probabilidad de que el vendedor necesite más de 6 llamadas de ventas para cerrar su primera venta.
+
+```{r}
+p <- 0.30
+prob_acum_6 <- pgeom(6, prob = p)
+prob_mas_6 <- 1 - prob_acum_6
+prob_mas_6
+```
+
+8. La probabilidad de que un estudiante pase un examen es del 60%. La distribución geométrica se puede usar para calcular la probabilidad de que el estudiante necesite más de 4 intentos para pasar el examen.
+
+```{r}
+p <- 0.60
+prob_acum_4 <- pgeom(4, prob = p)
+prob_mas_4 <- 1 - prob_acum_4
+prob_mas_4
+```
+
+9. Un jugador de fútbol americano tiene una probabilidad del 5% de interceptar un pase en un juego. La distribución geométrica se puede usar para calcular la probabilidad de que el jugador necesite más de 10 intentos para interceptar su primer pase.
+
+```{r}
+p <- 0.05
+prob_acum_10 <- pgeom(10, prob = p)
+prob_mas_10 <- 1 - prob_acum_10
+prob_mas_10
+```
+
+10. Un pescador tiene una probabilidad del 10% de capturar un pez en cada lance de su caña de pesca. La distribución geométrica se puede usar para calcular la probabilidad de que el pescador necesite más de 8 lances para capturar su primer pez.
+
+```{r}
+p <- 0.1
+prob_acum_8 <- pgeom(8, prob = p)
+prob_mas_8 <- 1 - prob_acum_8
+prob_mas_8
+```
+
+# Variables Aleatorias Continuas
+
+## Distribución Uniforme
+
+**Plantea y resuelve los siguientes ejercicios de Distribución Uniforme**
+
+1. Un fabricante de piezas mecánicas sabe que la longitud de sus piezas puede variar en un rango de 10 a 20 cm. La variable aleatoria uniforme continua se puede usar para modelar la longitud de las piezas que producen.
+
+```{r}
+n <- 1000
+a <- 10
+b <- 20
+piezas <- runif(n, min = a, max = b)
+prob_mayor_15 <- 1 - punif(15, min = a, max = b)
+prob_entre_12_18 <- diff(punif(c(12, 18), min = a, max = b))
+longitud_esperada <- (a + b) / 2
+cat("Probabilidad de longitud mayor a 15 cm:", prob_mayor_15, "\n")
+```
+
+2. Un negocio de alquiler de bicicletas sabe que el tiempo que los clientes alquilan sus bicicletas varía entre 1 y 4 horas. La variable aleatoria uniforme continua se puede usar para modelar la duración de los alquileres.
+
+```{r}
+n <- 1000
+a <- 1
+b <- 4
+duraciones <- runif(n, min = a, max = b)
+prob_menor_2 <- punif(2, min = a, max = b)
+prob_entre_1.5_3.5 <- diff(punif(c(1.5, 3.5), min = a, max = b))
+duracion_promedio <- (a + b) / 2
+cat("Probabilidad de duracion menor a 2 horas:",
+ prob_menor_2, "\n")
+```
+
+3. Un restaurante sabe que la cantidad de tiempo que los clientes pasan en el restaurante varía entre 30 minutos y 2 horas. La variable aleatoria uniforme continua se puede usar para modelar el tiempo de estancia de los clientes.
+
+```{r}
+n <- 1000
+a <- 30
+b <- 120
+tiempos_estancia <- runif(n, min = a, max = b)
+prob_menor_1_hora <- punif(60, min = a, max = b)
+prob_entre_45min_1.5h <- diff(punif(c(45, 90), min = a, max = b))
+tiempo_estancia_promedio <- (a + b) / 2
+cat("Probabilidad de tiempo de estancia menor a 1 hora:",
+ prob_menor_1_hora, "\n")
+```
+
+4. Una compañía de seguros sabe que la velocidad de los automóviles en una carretera puede variar entre 60 y 120 km/h. La variable aleatoria uniforme continua se puede usar para modelar la velocidad de los vehículos en la carretera.
+
+```{r}
+n <- 1000
+a <- 60
+b <- 120
+velocidades <- runif(n, min = a, max = b)
+prob_mayor_80 <- 1 - punif(80, min = a, max = b)
+prob_entre_70_90 <- diff(punif(c(70, 90), min = a, max = b))
+velocidad_promedio <- (a + b) / 2
+cat("Probabilidad de velocidad mayor a 80 km/h:",
+ prob_mayor_80, "\n")
+```
+
+5. Un fabricante de ropa sabe que el peso de las camisetas que produce puede variar entre 100 y 200 gramos. La variable aleatoria uniforme continua se puede usar para modelar el peso de las camisetas.
+
+```{r}
+n <- 1000
+a <- 100
+b <- 200
+pesos_camisetas <- runif(n, min = a, max = b)
+prob_mayor_150 <- 1 - punif(150, min = a, max = b)
+prob_entre_120_180 <- diff(punif(c(120, 180), min = a, max = b))
+peso_promedio <- (a + b) / 2
+cat("Probabilidad de peso mayor a 150 gramos:",
+ prob_mayor_150, "\n")
+```
+
+6. Una tienda de electrónica sabe que el voltaje que suministra su fuente de alimentación puede variar entre 110 y 220 voltios. La variable aleatoria uniforme continua se puede usar para modelar el voltaje de la fuente de alimentación.
+
+```{r}
+n <- 1000
+a <- 110
+b <- 220
+voltajes <- runif(n, min = a, max = b)
+prob_mayor_180 <- 1 - punif(180, min = a, max = b)
+prob_entre_150_200 <- diff(punif(c(150, 200), min = a, max = b))
+valor_esperado <- (a + b) / 2
+cat("Probabilidad de voltaje mayor a 180 voltios:",
+ prob_mayor_180, "\n")
+```
+
+7. Un servicio de mensajería sabe que la distancia entre los puntos de recogida y entrega puede variar entre 5 y 20 km. La variable aleatoria uniforme continua se puede usar para modelar la distancia de entrega.
+
+```{r}
+n <- 1000
+a <- 5
+b <- 20
+distancias <- runif(n, min = a, max = b)
+prob_menor_10 <- punif(10, min = a, max = b)
+prob_entre_15_18 <- diff(punif(c(15, 18), min = a, max = b))
+valor_esperado <- (a + b) / 2
+cat("Probabilidad de distancia menor a 10 km:",
+ prob_menor_10, "\n")
+```
+
+8. Un fabricante de televisores sabe que el tiempo que tardan sus empleados en ensamblar un televisor puede variar entre 1 y 3 horas. La variable aleatoria uniforme continua se puede usar para modelar el tiempo de ensamblaje.
+
+```{r}
+n <- 1000
+a <- 1
+b <- 3
+tiempos_ensamblaje <- runif(n, min = a, max = b)
+prob_menor_2_horas <- punif(2, min = a, max = b)
+prob_entre_1.5_2.5 <- diff(punif(c(1.5, 2.5), min = a, max = b))
+valor_esperado <- (a + b) / 2
+cat("Probabilidad de tiempo de ensamblaje menor a 2 horas:",
+ prob_menor_2_horas, "\n")
+```
+
+9. Una empresa de telecomunicaciones sabe que la velocidad de descarga de su red puede variar entre 10 y 50 Mbps. La variable aleatoria uniforme continua se puede usar para modelar la velocidad de descarga de la red.
+
+```{r}
+n <- 1000
+a <- 10
+b <- 50
+velocidades_descarga <- runif(n, min = a, max = b)
+prob_mayor_30_Mbps <- 1 - punif(30, min = a, max = b)
+prob_entre_20_40_Mbps <- diff(punif(c(20, 40), min = a, max = b))
+valor_esperado <- (a + b) / 2
+cat("Probabilidad de velocidad de descarga mayor a 30 Mbps:",
+ prob_mayor_30_Mbps, "\n")
+```
+
+10. Un concesionario de autos sabe que el precio de sus automóviles puede variar entre $10,000 y $30,000. La variable aleatoria uniforme continua se puede usar para modelar el precio de los automóviles en el concesionario.
+
+```{r}
+n <- 1000
+a <- 10000
+b <- 30000
+precios_automoviles <- runif(n, min = a, max = b)
+prob_mayor_20000 <- 1 - punif(20000, min = a, max = b)
+prob_entre_15000_25000 <- diff(punif(c(15000, 25000), min = a, max = b))
+valor_esperado <- (a + b) / 2
+cat("Probabilidad de precio de automovil mayor a $20,000:",
+ prob_mayor_20000, "\n")
+```
+
+## Distribución Exponencial
+
+**Plantea y resuelve los siguientes ejercicios de distribución exponencial**
+
+1. Una empresa de mensajería promete entregar los paquetes dentro de 2 horas desde que se realiza el pedido. El tiempo que tarda en entregarse un paquete sigue una distribución exponencial con una tasa de 0.5. ¿Cuál es la probabilidad de que un paquete se entregue en menos de 1 hora?
+
+```{r}
+lambda <- 0.5
+x <- 1 
+probabilidad <- 1 - exp(-lambda * x)
+probabilidad
+```
+
+2. La vida útil de las bombillas de una fábrica sigue una distribución exponencial con una media de 800 horas. ¿Cuál es la probabilidad de que una bombilla dure más de 1000 horas?
+
+```{r}
+media <- 800
+tiempo <- 1000
+probabilidad <- 1 - pexp(tiempo, rate = 1/media)
+probabilidad
+```
+
+3. Un sistema informático tiene una tasa de fallos de 0.01 por hora. ¿Cuál es la probabilidad de que el sistema falle en menos de 50 horas?
+
+```{r}
+tasa_fallos <- 0.01
+tiempo <- 50
+probabilidad <- pexp(tiempo, rate = tasa_fallos)
+probabilidad
+```
+
+4. Un vendedor tarda en promedio 15 minutos en atender a un cliente en su tienda. El tiempo que tarda en atender a los clientes sigue una distribución exponencial con una tasa de 0.25. ¿Cuál es la probabilidad de que atienda a un cliente en menos de 10 minutos?
+
+```{r}
+tasa_atencion <- 0.25
+tiempo <- 10
+probabilidad <- pexp(tiempo, rate = tasa_atencion)
+probabilidad
+```
+
+5. El tiempo entre llegadas de dos clientes a una tienda sigue una distribución exponencial con una media de 5 minutos. ¿Cuál es la probabilidad de que no llegue ningún cliente en 10 minutos?
+
+```{r}
+tasa_llegadas <- 0.2
+tiempo <- 10
+probabilidad <- 1 - exp(-tasa_llegadas * tiempo)
+probabilidad
+```
+
+6. El tiempo que tarda una persona en recorrer una distancia de 5 km en bicicleta sigue una distribución exponencial con una media de 30 minutos. ¿Cuál es la probabilidad de que la persona tarde menos de 20 minutos?
+
+```{r}
+tasa_llegadas <- 0.0333
+tiempo <- 20
+probabilidad <- 1 - exp(-tasa_llegadas * tiempo)
+probabilidad
+```
+
+7. El tiempo que tarda una máquina en producir una pieza sigue una distribución exponencial con una tasa de 0.003 piezas por minuto. ¿Cuál es la probabilidad de que la máquina produzca al menos 10 piezas en 5 minutos?
+
+```{r}
+tasa_produccion <- 0.003
+tiempo <- 5
+probabilidad <- exp(-tasa_produccion * tiempo)
+probabilidad
+```
+
+8. El tiempo que tarda un proceso industrial en completarse sigue una distribución exponencial con una media de 8 horas. ¿Cuál es la probabilidad de que el proceso tarde más de 10 horas en completarse?
+
+```{r}
+media <- 8
+tasa <- 1/media
+tiempo <- 10
+probabilidad <- exp(-tasa * tiempo)
+probabilidad
+```
+
+9. El tiempo que tarda un cliente en pagar en una caja sigue una distribución exponencial con una media de 2 minutos. Si hay 10 clientes esperando en la fila, ¿cuál es la probabilidad de que un cliente nuevo tenga que esperar más de 5 minutos para pagar?
+
+```{r}
+media <- 2
+tasa <- 1/media
+tiempo <- 5
+probabilidad <- exp(-tasa * tiempo)
+probabilidad
+```
+
+10. La tasa de llegada de un evento de demanda en un centro de atención telefónica sigue una distribución exponencial con una media de 4 eventos por hora. ¿Cuál es la probabilidad de que no llegue ningún evento en 10 minutos?
+
+```{r}
+tasa <- 4/60 
+tiempo <- 10 
+probabilidad <- pexp(tiempo, rate = tasa) - pexp(0, rate = tasa)
+probabilidad
+```
+
+11. El tiempo que tarda una persona en llegar a una estación de tren sigue una distribución exponencial con una media de 20 minutos. Si una persona tiene que tomar un tren que sale en 30 minutos, ¿cuál es la probabilidad de que llegue a tiempo?
+
+```{r}
+media <- 20 
+t <- 30 
+tasa <- 1/media 
+probabilidad <- exp(-tasa * t)
+probabilidad
+```
+
+12. El tiempo que tarda un coche en recorrer una distancia de 100 km en una carretera sigue una distribución exponencial con una media de 2 horas. ¿Cuál es la probabilidad de que el coche tarde menos de 1 hora y media?
+
+```{r}
+media <- 2 
+t <- 1.5 
+distancia <- 100 
+velocidad_media <- distancia / media 
+velocidad_media_mins <- velocidad_media * 60 
+tasa <- 1/velocidad_media_mins 
+probabilidad <- pexp(t, rate = tasa)
+probabilidad
+```
+
+13. Se sabe que el tiempo que tarda un técnico en reparar un electrodoméstico sigue una distribución exponencial con una tasa de 0.05. ¿Cuál es la probabilidad de que el técnico repare el electrodoméstico en menos de 20 minutos?
+
+```{r}
+tasa <- 0.05 
+tiempo <- 20 
+probabilidad <- pexp(tiempo, rate = tasa)
+probabilidad
+```
+
+14. Una empresa de mensajería sabe que el tiempo que tarda en entregar un paquete sigue una distribución exponencial con una tasa de 0.1. Si se tienen que entregar 100 paquetes, ¿cuál es la probabilidad de que la empresa tarde menos de 30 minutos en entregar cada paquete?
+
+```{r}
+tasa <- 0.1 
+tiempo <- 30 
+num_paquetes <- 100 
+probabilidad <- 0
+for (i in 1:num_paquetes) {
+ probabilidad <- probabilidad + pexp(tiempo, rate = tasa)
+}
+probabilidad
+```
+
+15. Se sabe que el tiempo que tarda en atenderse un cliente en una tienda sigue una distribución exponencial con una tasa de 0.2. ¿Cuál es la probabilidad de que un cliente espere más de 10 minutos para ser atendido?
+
+```{r}
+tasa <- 0.2 
+tiempo <- 10 
+probabilidad <- 1 - pexp(tiempo, rate = tasa)
+probabilidad
+```
+
+16. Un fabricante de baterías sabe que la duración de sus baterías sigue una distribución exponencial con una tasa de 0.01. Si se venden 500 baterías, ¿cuál es la probabilidad de que al menos 10 de ellas duren más de 100 horas?
+
+```{r}
+tasa <- 0.01 
+n_baterias <- 500 
+n_duran_mas_100h <- 10 
+probabilidad <- 1 - pexp(100, rate = tasa)^n_duran_mas_100h
+probabilidad
+```
+
+17. Un vendedor de autos usados sabe que la cantidad de tiempo que tarda en vender un auto sigue una distribución exponencial con una tasa de 0.1. Si tiene 20 autos en venta, ¿cuál es la probabilidad de que tarde más de 5 horas en venderlos todos?
+
+```{r}
+tasa <- 0.1 
+n_autos <- 20 
+tiempo_limite <- 5 
+probabilidad <- 1 - pexp(tiempo_limite, rate = tasa)^n_autos
+probabilidad
+```
+
+18. Se sabe que la cantidad de tiempo que tarda una persona en caminar desde su casa hasta la estación de tren sigue una distribución exponencial con una tasa de 0.05. Si la distancia es de 1 kilómetro, ¿cuál es la probabilidad de que la persona tarde menos de 20 minutos en llegar a la estación?
+
+```{r}
+tasa <- 0.05 
+distancia <- 1 
+tiempo_limite <- 20 
+probabilidad <- pexp(tiempo_limite, rate = tasa*distancia)
+probabilidad
+```
+
+19. Un banco sabe que la cantidad de tiempo que tarda un cliente en realizar una transacción sigue una distribución exponencial con una tasa de 0.15. Si se tienen que atender a 50 clientes, ¿cuál es la probabilidad de que el banco tarde menos de 2 horas en atenderlos a todos?
+
+```{r}
+tasa <- 0.15 
+num_clientes <- 50 
+tiempo_limite <- 2 
+probabilidad <- pexp(tiempo_limite*60, rate = tasa*num_clientes)
+probabilidad
+```
+
+20. Se sabe que la cantidad de tiempo que tarda en fallar un equipo electrónico sigue una distribución exponencial con una tasa de 0.02. Si se tienen 100 equipos en operación, ¿cuál es la probabilidad de que al menos 5 fallen en menos de 50 horas?
+
+```{r}
+tasa <- 0.02 
+num_equipos <- 100 
+tiempo_limite <- 50 
+num_fallan <- 5 
+probabilidad <- 1 - pexp(tiempo_limite, rate = tasa*num_equipos) -
+ sum(dexp(seq(0, tiempo_limite), rate = tasa*num_equipos, log = TRUE) *
+ choose(num_equipos, num_fallan) *
+ (1 - pexp(seq(0, tiempo_limite), rate = tasa))^num_fallan)
+probabilidad
+```
+
+21. Un restaurante sabe que la cantidad de tiempo que tarda un cliente en terminar de comer sigue una distribución exponencial con una tasa de 0.2. Si se tienen 30 mesas, ¿cuál es la probabilidad de que al menos 5 de ellas estén desocupadas en menos de 1 hora?
+
+```{r}
+tasa <- 0.2 
+num_mesas <- 30 
+tiempo_limite <- 1 
+num_desocupadas <- 5 
+probabilidad <- 1 - pexp(tiempo_limite, rate = tasa*num_mesas) -
+ sum(dexp(seq(0, tiempo_limite), rate = tasa*num_mesas, log = TRUE) *
+ choose(num_mesas, num_desocupadas) *
+ (1 - pexp(seq(0, tiempo_limite), rate = tasa))^num_desocupadas)
+probabilidad
+```
+
+22. Un servidor web sabe que la cantidad de tiempo que tarda en procesar una solicitud sigue una distribución exponencial con una tasa de 0.05. Si recibe 100 solicitudes, ¿cuál es la probabilidad de que tarde menos de 10 minutos en procesar cada una?
+
+```{r}
+tasa <- 0.05 
+num_solicitudes <- 100 
+tiempo_limite <- 10 
+probabilidad <- pexp(tiempo_limite, rate = tasa)^num_solicitudes
+probabilidad
+```
+
+## Distribución Normal
+
+**Plantea y resuelve los siguientes ejercicios de distribución normal**
+
+1. Una fábrica de papel produce rollos de papel higiénico que tienen una longitud media de 100 metros y una desviación estándar de 5 metros. ¿Cuál es la probabilidad de que un rollo de papel higiénico tenga una longitud entre 95 y 105 metros?
+
+```{r}
+probabilidad <- pnorm(105, mean = 100, sd = 5) - pnorm(95, mean = 100, sd = 5)
+probabilidad
+```
+
+2. La altura de los estudiantes de una escuela secundaria sigue una distribución normal con media de 165 cm y desviación estándar de 10 cm. ¿Cuál es la probabilidad de que un estudiante seleccionado al azar tenga una altura entre 150 y 180 cm?
+
+```{r}
+probabilidad <- pnorm(180, mean = 165, sd = 10) - pnorm(150, mean = 165,
+ sd = 10)
+probabilidad
+```
+
+3. Un fabricante de zapatos produce zapatos que tienen una longitud media de 28 cm y una desviación estándar de 2 cm. ¿Cuál es la probabilidad de que un zapato seleccionado al azar tenga una longitud mayor que 32 cm?
+
+```{r}
+probabilidad <- 1 - pnorm(32, mean = 28, sd = 2)
+probabilidad
+```
+
+4. La distribución de las calificaciones en un examen sigue una distribución normal con una media de 70 y una desviación estándar de 10. ¿Cuál es la probabilidad de que un estudiante seleccionado al azar tenga una calificación menor a 60?
+
+```{r}
+probabilidad <- pnorm(60, mean = 70, sd = 10)
+probabilidad
+```
+
+5. La duración de las baterías de un dispositivo electrónico sigue una distribución normal con una media de 10 horas y una desviación estándar de 2 horas. ¿Cuál es la probabilidad de que una batería seleccionada al azar dure más de 12 horas?
+
+```{r}
+probabilidad <- 1 - pnorm(12, mean = 10, sd = 2)
+probabilidad
+```
+
+6. La distribución de los tiempos de espera en una fila sigue una distribución normal con una media de 5 minutos y una desviación estándar de 1 minuto. ¿Cuál es la probabilidad de que un cliente tenga que esperar más de 8 minutos?
+
+```{r}
+probabilidad <- 1 - pnorm(8, mean = 5, sd = 1)
+probabilidad
+```
+
+7. El peso de los recién nacidos sigue una distribución normal con una media de 3.5 kg y una desviación estándar de 0.5 kg. ¿Cuál es la probabilidad de que un recién nacido pese menos de 2.5 kg?
+
+```{r}
+probabilidad <- pnorm(2.5, mean = 3.5, sd = 0.5)
+probabilidad
+```
+
+8. La velocidad de un vehículo sigue una distribución normal con una media de 60 km/h y una desviación estándar de 5 km/h. ¿Cuál es la probabilidad de que un vehículo viaje a una velocidad mayor de 70 km/h?
+
+```{r}
+probabilidad <- 1 - pnorm(70, mean = 60, sd = 5)
+probabilidad
+```
+
+9. La distribución de los ingresos de los trabajadores en una empresa sigue una distribución normal con una media de $\$50,000$ y una desviación estándar de $\$10,000$. ¿Cuál es la probabilidad de que un trabajador gane menos de $\$30,000$?
+
+```{r}
+probabilidad <- pnorm(30000, mean = 50000, sd = 10000)
+probabilidad
+```
+
+10. La temperatura de una ciudad sigue una distribución normal con una media de 25 grados Celsius y una desviación estándar de 2 grados Celsius. ¿Cuál es la probabilidad de que la temperatura sea mayor de 30 grados Celsius?
+
+```{r}
+probabilidad <- 1 - pnorm(30, mean = 25, sd = 2)
+probabilidad
+```
+
+11. La altura de las botellas de refresco sigue una distribución normal con una media de 20 cm y una desviación estándar de 1 cm. ¿Cuál es la probabilidad de que una botella seleccionada al azar tenga una altura menor a 18 cm?
+
+```{r}
+probabilidad <- pnorm(18, mean = 20, sd = 1)
+probabilidad
+```
+
+12. Si los puntajes de un examen están distribuidos normalmente con una media de 70 y una desviación estándar de 10, ¿cuál es la probabilidad de obtener un puntaje mayor a 80?
+
+```{r}
+probabilidad <- 1 - pnorm(80, mean = 70, sd = 10)
+probabilidad
+```
+
+13. Suponga que el tiempo que se tarda en atender a un cliente en un banco sigue una distribución normal con media de 5 minutos y una desviación estándar de 1.2 minutos. ¿Cuál es la probabilidad de que un cliente sea atendido en menos de 4 minutos?
+
+```{r}
+probabilidad <- pnorm(4, mean = 5, sd = 1.2)
+probabilidad
+```
+
+14. Un estudio indica que el peso promedio de los estudiantes de una universidad es de 70 kg con una desviación estándar de 8 kg. Si se selecciona una muestra aleatoria de 25 estudiantes, ¿cuál es la probabilidad de que el peso promedio de la muestra sea mayor a 75 kg?
+
+```{r}
+probabilidad <- 1 - pnorm(75, mean = 70, sd = 8/sqrt(25))
+probabilidad
+```
+
+15. Suponga que la altura de los jugadores de un equipo de baloncesto se distribuye normalmente con una media de 200 cm y una desviación estándar de 10 cm. Si se selecciona un jugador al azar, ¿cuál es la probabilidad de que su altura sea mayor a 215 cm?
+
+```{r}
+probabilidad <- 1 - pnorm(215, mean = 200, sd = 10)
+probabilidad
+```
+
+16. Si los ingresos mensuales de los empleados de una empresa están distribuidos normalmente con una media de $\$2500$ y una desviación estándar de $\$500$, ¿cuál es la probabilidad de que un empleado tenga un ingreso mensual mayor a $\$3000$?
+
+```{r}
+probabilidad <- 1 - pnorm(3000, mean = 2500, sd = 500)
+probabilidad
+```
+
+17. La cantidad de días que tarda una empresa en pagar a sus proveedores sigue una distribución normal con una media de 30 días y una desviación estándar de 5 días. Si se selecciona un proveedor al azar, ¿cuál es la probabilidad de que la empresa le pague en menos de 25 días?
+
+```{r}
+probabilidad <- pnorm(25, mean = 30, sd = 5)
+probabilidad
+```
+
+18. Suponga que el diámetro de los tornillos producidos por una fábrica sigue una distribución normal con media de 4 cm y una desviación estándar de 0.2 cm. Si se selecciona un tornillo al azar, ¿cuál es la probabilidad de que su diámetro esté entre 3.8 cm y 4.2 cm?
+
+```{r}
+probabilidad <- pnorm(4.2, mean = 4, sd = 0.2) - pnorm(3.8, mean = 4, sd = 0.2)
+probabilidad
+```
+
+19. El tiempo que tarda un trabajador en completar una tarea sigue una distribución normal con media de 6 horas y una desviación estándar de 1 hora. Si se selecciona un trabajador al azar, ¿cuál es la probabilidad de que complete la tarea en menos de 4 horas?
+
+```{r}
+probabilidad <- pnorm(4, mean = 6, sd = 1)
+probabilidad
+```
+
+20.Si la cantidad de gasolina que se llena en un tanque de un automóvil sigue una distribución normal con una media de 50 litros y una desviación estándar de 5 litros, ¿cuál es la probabilidad de que se llenen entre 45 y 55 litros?
+
+```{r}
+probabilidad <- pnorm(55, mean = 50, sd = 5) - pnorm(45, mean = 50, sd = 5)
+probabilidad
+```
+
+21. El peso de los paquetes que se envían por una compañía de paquetería sigue una distribución normal con una media de 2 kg y una desviación estándar de 0.5 kg. Si se selecciona un paquete al azar, ¿cuál es la probabilidad de que su peso esté entre 1.5 kg y 2.5 kg?
+
+```{r}
+probabilidad <- pnorm(2.5, mean = 2, sd = 0.5) - pnorm(1.5, mean = 2, sd = 0.5)
+probabilidad
+```
+
+## Distribución Gamma
+
+**Resuelve los ejercicios siguientes de la distribución gamma**
+
+1. Un fabricante de bombillas sabe que la vida útil de las bombillas sigue una distribución gamma con una media de 1500 horas y una desviación estándar de 500 horas. ¿Cuál es la probabilidad de que una bombilla dure más de 2000 horas?
+
+```{r}
+probabilidad <- 1 - pgamma(2000, shape = (1500/500)^2, scale = 500^2)
+probabilidad
+```
+
+2. Una planta de producción de papel produce rollos de papel de 100 metros de longitud. La distribución de la longitud de los rollos sigue una distribución gamma con una media de 105 metros y una desviación estándar de 10 metros. ¿Cuál es la probabilidad de que un rollo tenga una longitud de entre 90 y 110 metros?
+
+```{r}
+probabilidad <- pgamma(110, shape = (105/10)^2, scale = 10^2) -
+ pgamma(90, shape = (105/10)^2, scale = 10^2)
+probabilidad
+```
+
+3. La cantidad de tiempo que un grupo de estudiantes dedica a estudiar para un examen sigue una distribución gamma con una media de 20 horas y una desviación estándar de 5 horas. Si el tiempo mínimo requerido para pasar el examen es de 15 horas, ¿cuál es la probabilidad de que un estudiante al azar pase el examen?
+
+```{r}
+probabilidad <- 1 - pgamma(15, shape = (20/5)^2, scale = 5^2)
+probabilidad
+```
+
+4. Un fabricante de baterías de automóvil sabe que el tiempo de vida de las baterías sigue una distribución gamma con una media de 4 años y una desviación estándar de 1 año. ¿Cuál es la probabilidad de que una batería dure menos de 2 años?
+
+```{r}
+probabilidad <- pgamma(2, shape = (4/1)^2, scale = 1^2)
+probabilidad
+```
+
+5. La cantidad de tiempo que una persona tarda en completar una tarea sigue una distribución gamma con una media de 10 minutos y una desviación estándar de 2 minutos. Si se requiere que la tarea se complete en un tiempo máximo de 12 minutos, ¿cuál es la probabilidad de que una persona al azar pueda completar la tarea a tiempo?
+
+```{r}
+probabilidad <- pgamma(12, shape = (10/2)^2, scale = 2^2)
+probabilidad
+```
+
+6. Una fábrica de muebles produce sillas de madera. La cantidad de tiempo que tarda en producir una silla sigue una distribución gamma con una media de 2 horas y una desviación estándar de 0.5 horas. Si se requiere que se produzcan 10 sillas en un día de trabajo, ¿cuál es la probabilidad de que se logre completar la producción en un día?
+
+```{r}
+probabilidad <- pgamma(10, shape = (2/0.5)^2, scale = 0.5^2)
+probabilidad
+```
+
+7. Un fabricante de relojes sabe que la vida útil de sus relojes sigue una distribución gamma con una media de 5 años y una desviación estándar de 1 año. Si un reloj es considerado defectuoso si dura menos de 3 años, ¿cuál es la probabilidad de que un reloj al azar sea considerado defectuoso?
+
+```{r}
+probabilidad <- pgamma(3, shape = (5/1)^2, scale = 1^2)
+probabilidad
+```
+
+8. Un fabricante de focos sabe que la vida útil de sus focos sigue una distribución gamma con una media de 800 horas y una desviación estándar de 200 horas. Si se requiere que los focos duren al menos 1000 horas, ¿cuál es la probabilidad de que un foco al azar dure el tiempo necesario?
+
+```{r}
+probabilidad <- 1 - pgamma(1000, shape = (800/200)^2, scale = 200^2)
+probabilidad
+```
+
+9. La cantidad de tiempo que tarda un técnico en reparar un dispositivo electrónico sigue una distribución gamma con una media de 3 horas y una desviación estándar de 0.5 horas. Si se requiere que el dispositivo sea reparado en un tiempo máximo de 4 horas, ¿cuál es la probabilidad de que el técnico al azar pueda reparar el dispositivo a tiempo?
+
+```{r}
+probabilidad <- pgamma(4, shape = (3/0.5)^2, scale = 0.5^2)
+probabilidad_porcentaje <- probabilidad * 100
+probabilidad_porcentaje
+```
+
+10. Se sabe que el tiempo de vida (en años) de una lámpara sigue una distribución gamma con parámetros $\alpha=3$ y $\beta=2$. Encuentra la probabilidad de que la lámpara dure más de 4 años.
+
+```{r}
+probabilidad <- (1 - pgamma(4, shape = 3, rate = 2)) * 100
+probabilidad
+```
+
+11. Un servicio de reparación de electrodomésticos tiene un promedio de 10 reparaciones diarias con una desviación estándar de 2 reparaciones. Si se modela el número de reparaciones diarias como una distribución gamma, ¿cuál es el valor del parámetro $\alpha$?
+
+```{r}
+media <- 10
+desviacion_estandar <- 2
+varianza <- desviacion_estandar^2
+alpha <- (media^2) / varianza
+alpha
+```
+
+12. El tiempo que tarda en llegar un cliente al restaurante sigue una distribución gamma con parámetros $\alpha=2$ y $\beta=3$. ¿Cuál es la probabilidad de que un cliente tarde más de 5 minutos en llegar?
+
+```{r}
+alpha <- 2
+beta <- 3
+umbral <- 5
+probabilidad <- 1 - pgamma(umbral, shape = alpha, rate = beta)
+probabilidad_porcentaje <- probabilidad * 100
+probabilidad_porcentaje
+```
+
+13. Se sabe que la cantidad de kilómetros que recorre un taxi en un día sigue una distribución gamma con parámetros $\alpha=4$ y $\beta=6$. ¿Cuál es la probabilidad de que el taxi recorra menos de 20 kilómetros en un día?
+
+```{r}
+alpha <- 4
+beta <- 6
+umbral <- 20
+probabilidad <- pgamma(umbral, shape = alpha, rate = beta)
+probabilidad_porcentaje <- probabilidad * 100
+probabilidad_porcentaje
+```
+
+14. El tiempo que tarda un empleado en resolver una tarea sigue una distribución gamma con parámetros $\alpha=5$ y $\beta=2$. ¿Cuál es el valor esperado del tiempo de resolución de la tarea?
+
+```{r}
+alpha <- 5
+beta <- 2
+valor_esperado <- alpha / beta
+valor_esperado
+```
+
+15. Un grupo de personas está siendo tratado con un medicamento cuyos efectos secundarios siguen una distribución gamma con parámetros $\alpha=2$ y $\beta=4$. ¿Cuál es la probabilidad de que el efecto secundario más duradero dure más de 6 horas?
+
+```{r}
+alpha <- 2
+beta <- 4
+probabilidad <- pgamma(6, shape = alpha, rate = 1/beta, lower.tail = FALSE)
+# Convertir la probabilidad a porcentaje
+probabilidad_porcentaje <- probabilidad * 100
+# Imprimir el resultado
+probabilidad_porcentaje
+```
+
+16. La cantidad de tiempo que tarda una máquina en fabricar una pieza sigue una distribución gamma con parámetros $\alpha=4$ y $\beta=5$. ¿Cuál es la probabilidad de que la máquina tarde menos de 10 minutos en fabricar una pieza?
+
+```{r}
+alpha <- 4
+beta <- 5
+probabilidad <- pgamma(10, shape = alpha, rate = 1/beta)
+# Convertir la probabilidad a porcentaje
+probabilidad_porcentaje <- probabilidad * 100
+# Imprimir el resultado
+probabilidad_porcentaje
+```
+
+17. Se sabe que la cantidad de kilómetros que puede recorrer un coche con un tanque de gasolina sigue una distribución gamma con parámetros $\alpha=3$ y $\beta=8$. Si el coche tiene un tanque de gasolina de 40 litros, ¿cuál es la probabilidad de que pueda recorrer más de 600 kilómetros con un tanque lleno?
+
+```{r}
+# Convertir los kilometros a litros
+kilometros <- 600
+litros <- kilometros / (3/8)
+# Calcular la probabilidad de que el coche pueda recorrer mas de 600
+# kilometros con un tanque lleno
+alpha <- 3
+beta <- 8
+probabilidad <- 1 - pgamma(litros, shape = alpha, rate = 1/beta)
+# Convertir la probabilidad a porcentaje
+probabilidad_porcentaje <- probabilidad * 100
+# Imprimir el resultado
+probabilidad_porcentaje
+```
+
+18. El tiempo que tarda un equipo de trabajo en completar un proyecto sigue una distribución gamma con parámetros $\alpha=6$ y $\beta=3$. ¿Cuál es la varianza del tiempo de completación del proyecto?
+
+```{r}
+alpha <- 6
+beta <- 3
+varianza <- alpha / (beta^2)
+varianza
+```
+
+19. Se sabe que el tiempo que tarda en salir un autobús desde la terminal sigue una distribución gamma con parámetros $\alpha=3$ y $\beta=2$. ¿Cuál es la probabilidad de que el autobús tarde más de 5 minutos en salir?
+
+```{r}
+alpha <- 3
+beta <- 2
+tiempo_limite <- 5
+probabilidad <- 1 - pgamma(tiempo_limite, shape = alpha, rate = 1/beta)
+probabilidad
+```
+
+20. La cantidad de tiempo que tarda un paquete en ser entregado sigue una distribución gamma con parámetros $\alpha=5$ y $\beta=4$. ¿Cuál es la probabilidad de que el paquete sea entregado antes de 25 minutos?
+
+```{r}
+alpha <- 5
+beta <- 4
+tiempo_limite <- 25
+probabilidad <- pgamma(tiempo_limite, shape = alpha, rate = 1/beta)
+probabilidad
+```
+
+21. Un proceso de producción tiene un promedio de 10 piezas producidas por hora con una desviación estándar de 2 piezas. Si se modela el número de piezas producidas por hora como una distribución gamma, ¿cuál es el valor del parámetro $\beta$
+
+```{r}
+promedio <- 10
+desviacion_estandar <- 2
+beta <- promedio / desviacion_estandar^2
+beta
+```
+
+## Distribución Beta
+
+**Plantea y resuelve los siguientes ejercicios de distribución beta**
+
+1. Un sitio web de videos desea medir la tasa de clics en su botón de "reproducir". Si se sabe que el 10% de los usuarios hacen clic en el botón, ¿cuál es la probabilidad de que de 20 usuarios, exactamente 3 hagan clic?
+
+```{r}
+usuarios_totales <- 20
+usuarios_clic <- 3
+probabilidad_clic <- 0.1
+probabilidad_exacta <- dbinom(usuarios_clic, usuarios_totales, probabilidad_clic)
+probabilidad_exacta
+```
+
+2. Una empresa quiere saber la probabilidad de que un producto defectuoso se encuentre en el proceso de producción. Si se sabe que la tasa de producción de productos defectuosos es del 5%, ¿cuál es la probabilidad de que de 200 productos producidos, exactamente 12 sean defectuosos?
+
+```{r}
+productos_totales <- 200
+productos_defectuosos <- 12
+tasa_defectuosos <- 0.05
+probabilidad_exacta <- choose(productos_totales, productos_defectuosos) *
+ dbeta(tasa_defectuosos, productos_defectuosos + 1, productos_totales - productos_defectuosos + 1) *
+ dbinom(productos_defectuosos, productos_totales, tasa_defectuosos)
+probabilidad_exacta
+```
+
+3. Un sitio web de citas desea medir la tasa de conversión de las personas que visitan su sitio y se suscriben a un plan premium. Si se sabe que el 2% de las personas que visitan el sitio se suscriben a un plan premium, ¿cuál es la probabilidad de que de 500 visitas, exactamente 10 personas se suscriban?
+
+```{r}
+visitas_totales <- 500
+personas_suscriben <- 10
+tasa_conversion <- 0.02
+probabilidad_exacta <- dbinom(personas_suscriben, visitas_totales, tasa_conversion)
+probabilidad_exacta
+```
+
+4. Una compañía desea medir la tasa de conversión de los anuncios en línea. Si se sabe que el 20% de las personas que ven el anuncio hacen clic en él, ¿cuál es la probabilidad de que de 50 vistas, exactamente 12 personas hagan clic?
+
+```{r}
+visitas_totales <- 50
+personas_clic <- 12
+tasa_conversion <- 0.2
+probabilidad_exacta <- dbeta(tasa_conversion, personas_clic + 1, visitas_totales - personas_clic + 1)
+probabilidad_exacta
+```
+
+5. Un restaurante desea medir la satisfacción de sus clientes en relación con un nuevo plato que acaba de agregar al menú. Si se sabe que el 70% de los clientes están satisfechos con el nuevo plato, ¿cuál es la probabilidad de que de 100 clientes, exactamente 50 estén satisfechos?
+
+```{r}
+clientes_totales <- 100
+clientes_satisfechos <- 50
+tasa_satisfaccion <- 0.7
+probabilidad_exacta <- dbeta(tasa_satisfaccion, clientes_satisfechos + 1, clientes_totales - clientes_satisfechos
++ 1)
+probabilidad_exacta
+```
+
+6. Un fabricante de lámparas desea medir la tasa de fallas de sus productos. Si se sabe que el 3% de las lámparas fallan, ¿cuál es la probabilidad de que de 500 lámparas producidas, exactamente 20 fallen?
+
+```{r}
+lamparas_totales <- 500
+lamparas_falladas <- 20
+tasa_fallas <- 0.03
+probabilidad_exacta <- dbeta(tasa_fallas, lamparas_falladas + 1, lamparas_totales - lamparas_falladas + 1)
+probabilidad_exacta
+```
+
+7. Una empresa desea medir la tasa de aprobación de sus solicitudes de crédito. Si se sabe que el 80% de las solicitudes son aprobadas, ¿cuál es la probabilidad de que de 200 solicitudes, exactamente 150 sean aprobadas?
+
+```{r}
+solicitudes_totales <- 200
+solicitudes_aprobadas <- 150
+tasa_aprobacion <- 0.8
+probabilidad_exacta <- dbeta(tasa_aprobacion, solicitudes_aprobadas + 1, solicitudes_totales - solicitudes_aprobadas + 1)
+probabilidad_exacta
+```
+
+8. Una tienda de ropa desea medir la tasa de conversión de los visitantes en compradores. Si se sabe que el 10% de las personas que visitan la tienda compran algo, ¿cuál es la probabilidad de que de 50 visitas, exactamente 5 personas compren?
+
+```{r}
+visitas_totales <- 50
+compras_realizadas <- 5
+tasa_conversion <- 0.1
+probabilidad_exacta <- dbeta(tasa_conversion, compras_realizadas + 1, visitas_totales - compras_realizadas + 1)
+probabilidad_exacta
+```
+
+9. Un fabricante de televisores desea medir la tasa de fallas de sus productos. Si se sabe que el 2% de los televisores fallan, ¿cuál es la probabilidad de que de 1000 televisores producidos, exactamente 15 fallen?
+
+```{r}
+televisores_producidos <- 1000
+fallas <- 15
+tasa_fallas <- 0.02
+probabilidad_exacta <- dbeta(tasa_fallas, fallas + 1, televisores_producidos - fallas + 1)
+probabilidad_exacta
+```
+
+10. Un sitio web de noticias desea medir la tasa de clics en sus artículos. Si se sabe que el 15% de los usuarios que visitan el sitio hacen clic en los artículos, ¿cuál es la probabilidad de que de 80 visitas, exactamente 10 usuarios hagan clic en los artículos?
+
+```{r}
+visitas <- 80
+clics <- 10
+tasa_clics <- 0.15
+probabilidad_exacta <- dbeta(tasa_clics, clics + 1, visitas - clics + 1)
+probabilidad_exacta
+```
+
+11. Una empresa de marketing desea conocer el porcentaje de conversiones de su última campaña publicitaria. Se seleccionan aleatoriamente 200 personas que han visto la publicidad y se observa que 50 de ellas han realizado una compra. Suponiendo una distribución beta con parámetros a=2 y b=4, ¿cuál es la probabilidad de que la tasa de conversión esté entre el 20% y el 30%?
+
+```{r}
+personas_vistas <- 200
+personas_compraron <- 50
+alpha <- 2
+beta <- 4
+tasa_conversion_min <- 0.2
+tasa_conversion_max <- 0.3
+probabilidad_intervalo <- pbeta(tasa_conversion_max, personas_compraron + alpha, personas_vistas - personas_compraron + beta) -
+ pbeta(tasa_conversion_min, personas_compraron + alpha, personas_vistas - personas_compraron + beta)
+probabilidad_intervalo
+```
+
+12. Un fabricante de pinturas quiere determinar la proporción de pigmento que debe agregar a su fórmula para obtener el color deseado. Se realiza una prueba en la que se mezcla la fórmula con diferentes proporciones de pigmento y se mide la intensidad del color en una escala de 0 a 100. Suponiendo una distribución beta con parámetros a=5 y b=2, ¿cuál es la probabilidad de que la proporción de pigmento necesaria para obtener una intensidad de color de al menos 80 sea menor al 30%?
+
+```{r}
+intensidad_deseada <- 80
+proporcion_max <- 0.3
+alpha <- 5
+beta <- 2
+probabilidad_proporcion <- pbeta(proporcion_max, alpha, beta)
+probabilidad_proporcion
+```
+
+13. Un estudio de opinión pública desea conocer el porcentaje de personas que apoyan una propuesta de ley. Se seleccionan aleatoriamente 1000 personas y se les pregunta si están a favor o en contra. Se observa que 650 están a favor. Suponiendo una distribución beta con parámetros a=7 y b=5, ¿cuál es la probabilidad de que la tasa de aprobación esté entre el 60% y el 70%?
+
+```{r}
+n_personas <- 1000
+n_aprobaciones <- 650
+porcentaje_min <- 0.6
+porcentaje_max <- 0.7
+alpha <- 7
+beta <- 5
+probabilidad_aprobacion <- pbeta(porcentaje_max, alpha * n_aprobaciones, beta * (n_personas - n_aprobaciones)) -
+ pbeta(porcentaje_min, alpha * n_aprobaciones, beta * (n_personas - n_aprobaciones))
+probabilidad_aprobacion
+```
+
+14. Una empresa de seguros desea conocer la proporción de personas que renuevan su póliza de seguro cada año. Se seleccionan aleatoriamente 5000 clientes y se observa que 4200 renuevan su póliza. Suponiendo una distribución beta con parámetros a=15 y b=5, ¿cuál es la probabilidad de que la tasa de renovación esté por encima del 85%?
+
+```{r}
+n_clientes <- 5000
+n_renovaciones <- 4200
+porcentaje_limite <- 0.85
+alpha <- 15
+beta <- 5
+probabilidad_renovacion <- 1 - pbeta(porcentaje_limite, alpha * n_renovaciones, beta * (n_clientes - n_renovaciones))
+probabilidad_renovacion
+```
+
+15. Una compañía de transporte de paquetería desea conocer la proporción de envíos que llegan a su destino en el plazo establecido. Se revisan aleatoriamente 100 envíos y se observa que 80 llegan a tiempo. Suponiendo una distribución beta con parámetros a=8 y b=2, ¿cuál es la probabilidad de que la tasa de envíos que llegan a tiempo esté por encima del 85%?
+
+```{r}
+n_envios <- 100
+n_llegan_a_tiempo <- 80
+porcentaje_limite <- 0.85
+alpha <- 8
+beta <- 2
+probabilidad_llegada_a_tiempo <- 1 - pbeta(porcentaje_limite, alpha * n_llegan_a_tiempo, beta * (n_envios - n_llegan_a_tiempo))
+probabilidad_llegada_a_tiempo
+```
+
+16. Una empresa de telecomunicaciones desea conocer la proporción de clientes que utilizan su servicio de streaming de video. Se seleccionan aleatoriamente 300 clientes y se observa que 150 utilizan el servicio. Suponiendo una distribución beta con parámetros a=10 y b=10, ¿cuál es la probabilidad de que la tasa de uso del servicio esté entre el 40% y el 60%?
+
+```{r}
+n_clientes <- 300
+n_usan_servicio <- 150
+porcentaje_inferior <- 0.4
+porcentaje_superior <- 0.6
+alpha <- 10
+beta <- 10
+probabilidad_tasa_uso <- pbeta(porcentaje_superior, alpha * n_usan_servicio, beta * (n_clientes - n_usan_servicio)) - pbeta(porcentaje_inferior, alpha * n_usan_servicio, beta * (n_clientes - n_usan_servicio))
+probabilidad_tasa_uso
+```
+
+17. Una empresa de producción de alimentos desea conocer la proporción de productos que cumplen con las especificaciones de calidad establecidas. Se seleccionan aleatoriamente 500 unidades de producto y se observa que 460 cumplen con las especificaciones. Suponiendo una distribución beta con parámetros a=6 y b=4, ¿cuál es la probabilidad de que la tasa de unidades que cumplen con las especificaciones esté por encima del 90%?
+
+```{r}
+n_unidades <- 500
+n_cumplen_especificaciones <- 460
+porcentaje_superior <- 0.9
+alpha <- 6
+beta <- 4
+probabilidad_tasa_cumplimiento <- 1 - pbeta(porcentaje_superior, alpha * n_cumplen_especificaciones, beta * (n_unidades - n_cumplen_especificaciones))
+probabilidad_tasa_cumplimiento
+```
+
+# Intervalos de confianza
+
+## Para una Media
+
+### Muestras Grandes
+
+Los intervalos de confianza para una media son una herramienta fundamental en la estadística inferencial que nos permite estimar un intervalo en el que se espera que esté la verdadera media poblacional de una variable aleatoria continua. Los intervalos de confianza se calculan a partir de una muestra aleatoria de la población, y se basan en el nivel de confianza y en el tamaño de la muestra. En general, a medida que el tamaño de la muestra aumenta, la precisión del intervalo de confianza también mejora.
+
+Cuando se trabaja con muestras grandes (generalmente, $n > 30$), se puede utilizar la distribución normal para aproximar la distribución muestral de la media, lo que permite calcular el intervalo de confianza utilizando la fórmula $z$.
+
+La fórmula general para calcular el intervalo de confianza de una media, cuando la muestra es grande, es:
+
+$x̄ ± z*(σ / √n)$
+
+Donde:
+
+* x̄ es la media muestral
+* $σ$ es la desviación estándar poblacional (o su estimación, la desviación estándar muestral)
+* $n$ es el tamaño de la muestra
+* $z$ es el valor crítico de la distribución normal estándar para el nivel de confianza deseado.
+
+1. Intervalo de confianza del 95% para la altura media poblacional de los estudiantes de una universidad con una muestra de 100 estudiantes:
+
+* Tamaño de la muestra ($n$): 100
+* Media muestral ($x̄$):$ 170 cm
+* Desviación estándar poblacional ($σ$): 8 cm (suponiendo que se conoce)
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 8 / \sqrt(100) = 0.8$ cm
+* Intervalo de confianza: $x̄ ± zE = 170 ± 1.960*8 = (168.4, 171.6)$ cm
+
+Por lo tanto, podemos afirmar con un nivel de confianza del $95%$ que la altura media poblacional de los estudiantes se encuentra dentro del intervalo $(168.4, 171.6)$ cm.
+
+2. Intervalo de confianza del 90% para la temperatura media poblacional de un horno con una muestra de 50 mediciones:
+
+* Media muestral ($x̄$): 400 °C
+* Desviación estándar muestral ($s$): 10 °C
+* Desviación estándar poblacional ($σ$): 2 c
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(400) = 0.1$ c
+* Intervalo de confianza: $x̄ ± zE = 10 ± 1.960 * 2 = (13.92, 6.08)$ c
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del horno se encuentra dentro del intervalo $(13.92, 6.08)$ c
+
+3. Intervalo de confianza del $95%$ para la media de las alturas de una población de $2000$ estudiantes universitarios:
+
+* Media muestral ($x̄$): 170 cm
+* Desviación estándar muestral ($s$): 10 cm
+* Desviación estándar poblacional ($σ$): 2 cm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(170) = 0.15$ cm
+* Intervalo de confianza: $x̄ ± zE = 10 ± 1.960 * 2 = (10.294, 9.706)$ cm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional estudiantil se encuentra dentro del intervalo $(185.68, 154.32)$ cm
+
+4. Intervalo de confianza del 99% para la media del diámetro de un conjunto de 50 tornillos:
+
+* Media muestral ($x̄$): 3.5 mm
+* Desviación estándar muestral ($s$): 0.2 mm
+* Desviación estándar poblacional ($σ$): 0.1 mm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.1 / \sqrt(3.5) = 0.053$ mm
+* Intervalo de confianza: $x̄ ± zE = 0.2 ± 1.960 * 0.1 = (0.396, 0.004)$ mm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del diámetro de un conjunto de tornillos se encuentra dentro del intervalo $(0.396, 0.004)$ mm
+
+5. Intervalo de confianza del $90%$ para la media del peso de una población de $50000$ manzanas:
+* Media muestral ($x̄$): 150 g
+* Desviación estándar muestral ($s$): 20 g
+* Desviación estándar poblacional ($σ$): 2 g
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(150) = 0.163$ g
+* Intervalo de confianza: $x̄ ± zE = 20 ± 1.960 * 2 = (23.92, 16.08)$ g
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del peso de las manzanas se encuentra dentro del intervalo $0.119, 0.080)$ mm
+
+6. Intervalo de confianza del $95%$ para la media del tiempo de reacción de un grupo de $100$ conductores:
+
+* Media muestral ($x̄$): 0.5 s
+* Desviación estándar muestral ($s$): 0.1 s
+* Desviación estándar poblacional ($σ$): 0.01 s
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(0.5) = 0.14$ s
+* Intervalo de confianza: $x̄ ± zE = 0.1 ± 1.960 * 0.01 = (0.119, 0.080)$ s
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del grupo de conductores se encuentra dentro del intervalo $(0.119, 0.080)$ s
+
+7. Intervalo de confianza del 99% para la media de las concentraciones de cloro en una muestra de agua:
+
+* Media muestral ($x̄$): 2.0 ppm
+* Desviación estándar muestral ($s$): 0.3 ppm
+* Desviación estándar poblacional ($σ$): 0.01 ppm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(2) = 0.007$ ppm
+* Intervalo de confianza: $x̄ ± zE = 0.3 ± 1.960 * 0.01 = (0.319, 0.2804)$ ppm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de las concentraciones de cloro se encuentra dentro del intervalo $(0.319, 0.2804)$ ppm
+
+8. Intervalo de confianza del $90%$ para la media de las velocidades de una muestra de $50$ coches en una autopista:
+
+* Media muestral ($x̄$): 120 km/h
+* Desviación estándar muestral ($s$): 5 km/h
+* Media muestral ($x̄$): 2.0 km/h
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(120) = 0.18$ km/h
+* Intervalo de confianza: $x̄ ± zE = 5 ± 1.960 * 2 = (1.08, 8.92)$ km/h
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de las velocidades de una autopista se encuentra dentro del intervalo $(1.08, 8.92)$ km/h
+
+9. Intervalo de confianza del 99% para la media del diámetro de una muestra de 15 pernos:
+
+* Media muestral (x̄): 5.5 mm
+* Desviación estándar muestral (s): 0.3 mm
+* Media muestral ($x̄$): 0.01 mm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(5.5) = 0.00426$ mm
+* Intervalo de confianza: $x̄ ± zE = 0.3 ± 1.960 * 0.01 = (0.3196, 0.28)$ mm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del diametro de algunos pernos se encuentra dentro del intervalo $(0.3196, 0.28)$ mm
+
+10. Intervalo de confianza del 95% para la media de las concentraciones de ácido sulfúrico en una muestra de 25 soluciones:
+* Media muestral (x̄): 3.2 M
+* Desviación estándar muestral (s): 0.4 M
+* Media muestral ($x̄$): 0.1 M
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.1 / \sqrt(3.2) = 0.0559$ M
+* Intervalo de confianza: $x̄ ± zE = 0.4 ± 1.960 * 0.1 = (0.596, 0.204)$ M
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional deL ácido sulfúrico se encuentra dentro del intervalo $(0.596, 0.204)$ M
+
+11. Intervalo de confianza del 90% para la media de las resistencias eléctricas en una muestra de 20 circuitos:
+
+* Media muestral (x̄): 150 ohms
+* Desviación estándar muestral (s): 20 ohms
+* Media muestral ($x̄$): 3 ohms
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 3 / \sqrt(150) = 0.244$ ohms
+* Intervalo de confianza: $x̄ ± zE = 20 ± 1.960 * 3 = (25.88, 14.12)$ ohms
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de algunos circuitos encuentra dentro del intervalo $(25.88, 14.12)$ ohms
+
+12. Intervalo de confianza del 95% para la media de las alturas de una muestra de 30 estudiantes de una universidad:
+
+* Media muestral (x̄): 170 cm
+* Desviación estándar muestral (s): 6 cm
+* Media muestral ($x̄$): 0.5 cm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.5 / \sqrt(170) = 0.038$ cm
+* Intervalo de confianza: $x̄ ± zE = 6 ± 1.960 * 0.5 = (6.98 , 5.02)$ cm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de las alturas de universitarios se encuentra dentro del intervalo $(6.98 , 5.02)$ cm
+
+13. Intervalo de confianza del 95% para la media de las alturas de una población de 2000 estudiantes universitarios:
+
+* Media muestral (x̄): 2000 cm
+* Desviación estándar muestral (s): 10 cm
+* Media muestral ($x̄$): 2 cm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(2000) = 0.0447$ cm
+* Intervalo de confianza: $x̄ ± zE = 10 ± 1.960 * 2 = (13.92, 6.08)$ cm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de las alturas de universitarios se encuentra dentro del intervalo $(13.92, 6.08)$ cm
+
+14. Intervalo de confianza del 99% para la media del diámetro de un conjunto de 50 tornillos:
+
+* Media muestral (x̄): 3.5 mm
+* Desviación estándar muestral (s): 0.2 mm
+* Media muestral ($x̄$): 0.02 mm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.02 / \sqrt(3.5) = 0.1069$ mm
+* Intervalo de confianza: $x̄ ± zE = 0.2 ± 1.960 * 0.02 = (0.239, 0.1608)$ mm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de los diametros de algunos tornillos se encuentra dentro del intervalo $(0.239, 0.1608)$ mm
+
+15. Intervalo de confianza del 90% para la media del peso de una población de 50000 manzanas:
+
+* Media muestral (x̄): 50000 g
+* Desviación estándar muestral (s): 20 g
+* Media muestral ($x̄$): 0.2 g
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.2 / \sqrt(50000) = 0.000894$ g
+* Intervalo de confianza: $x̄ ± zE = 20 ± 1.960 * 0.2 = (20.392, 19.608)$ g
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de los pesos de algunas manzanas se encuentra dentro del intervalo $(20.392, 19.608)$ g
+
+16. Intervalo de confianza del 95% para la media del tiempo de reacción de un grupo de 100 conductores:
+
+* Media muestral (x̄): 0.5 s
+* Desviación estándar muestral (s): 0.1 s
+* Media muestral ($x̄$): 0.01 s
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(0.5) = 0.014$ s
+* Intervalo de confianza: $x̄ ± zE = 0.1 ± 1.960 * 0.01 = (0.1196, 0.0804)$ s
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de los tiempos de algunos camioneros se encuentra dentro del intervalo $(0.1196, 0.0804)$ s
+
+17. Intervalo de confianza del 99% para la media de las concentraciones de cloro en una muestra de agua:
+
+* Media muestral (x̄): 2.0 ppm
+* Desviación estándar muestral (s): 0.7 ppm
+* Media muestral ($x̄$): 0.01 ppm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(2) = 0.0070$ ppm
+* Intervalo de confianza: $x̄ ± zE = 0.7 ± 1.960 * 0.01 = (0.719, 0.6804)$ s
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de las concentraciones de cloro se encuentra dentro del intervalo $(0.719, 0.6804)$ s
+
+18. Intervalo de confianza del 90% para la media de las velocidades de una muestra de 50 coches en una autopista:
+
+* Media muestral (x̄): 120 km/h
+*Desviación estándar muestral (s): 5 km/h
+* Media muestral ($x̄$): 0.5 km/h
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.5 / \sqrt(120) = 0.0456$ km/h
+* Intervalo de confianza: $x̄ ± zE = 5 ± 1.960 * 0.5 = (5.98, 4.02)$ km/h
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de algunos coches se encuentra dentro del intervalo $(0.719, 0.6804)$ s
+
+19. Intervalo de confianza del 99% para la media del diámetro de una muestra de 15 pernos:
+
+*Media muestral (x̄): 5.5 mm
+*Desviación estándar muestral (s): 0.3 mm
+* Media muestral ($x̄$): 0.05 mm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.05 / \sqrt(5.5) = 0.2132$ mm
+* Intervalo de confianza: $x̄ ± zE = 0.3 ± 1.960 * 0.05 = (0.398, 0.202)$ mm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional del diametro algunos pernos se encuentra dentro del intervalo $(0.719, 0.6804)$ s
+
+20. Intervalo de confianza del 95% para la media de las concentraciones de ácido sulfúrico en una muestra de 25 soluciones:
+
+* Media muestral (x̄): 3.2 M
+* Desviación estándar muestral (s): 0.4 M
+* Media muestral ($x̄$): 0.01 M
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 0.01 / \sqrt(3.2) = 0.00559$ M
+* Intervalo de confianza: $x̄ ± zE = 0.4 ± 1.960 * 0.01 = (0.4196, 0.3804)$ M
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de ácido sulfúrico se encuentra dentro del intervalo $(0.4196, 0.3804)$ M
+
+21. Intervalo de confianza del 90% para la media de las resistencias eléctricas en una muestra de 20 circuitos:
+
+* Media muestral (x̄): 150 ohms
+* Desviación estándar muestral (s): 20 ohms
+* Media muestral ($x̄$): 2 ohms
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 2 / \sqrt(150) = 0.1632$ ohms
+* Intervalo de confianza: $x̄ ± zE = 20 ± 1.960 * 2 = (23.92, 16.08)$ ohms
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de algunos circuitos se encuentra dentro del intervalo $(23.92, 16.08)$ ohms
+
+22. Intervalo de confianza del 95% para la media de las alturas de una muestra de 30 estudiantes de una universidad:
+
+* Media muestral (x̄): 170 cm
+* Desviación estándar muestral (s): 6 cm
+* Media muestral ($x̄$): 1 cm
+* Nivel de confianza: $95%$
+* Valor crítico $z$ de la distribución normal estándar para un nivel de confianza del $95%$: $1.96$
+* Error estándar $(E): σ / \sqrt(n) = 1 / \sqrt(170) = 0.07669$ cm
+* Intervalo de confianza: $x̄ ± zE = 6 ± 1.960 * 1 = (7.96, 4.04)$ cm
+
+Por lo tanto, podemos afirmar con un nivel de confianza es del $95%$ que la altura media poblacional de algunos estudiantes se encuentra dentro del intervalo $(7.96, 4.04)$ cm
