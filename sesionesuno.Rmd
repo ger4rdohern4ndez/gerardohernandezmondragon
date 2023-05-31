@@ -1,0 +1,991 @@
+---
+title: "Libro de Estadística y Probabilidad"
+author: "Gerardo Hernandez Mondragon"
+date: "18-003-1784"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(latex2exp)
+library(ggplot2)
+```
+
+# SESIÓN 1:
+
+En la primera parte de nuestro código, definimos una matriz que llamamos 'x' y posterior mente la imprimimos en pantalla, con el comando 'runif' logramos definir otra matriz que llamamos 'y', esta tendra 10 valores que se van a encontrar entre el 0 y 100, por último con el comando 'floor' nos devuelve el número más pequeño de la matriz 'y' y imprimimos en pantalla.
+
+```{r}
+x <- c(1,12,30,54,5)
+print(x) 
+y <- runif(10,0,100) 
+print(y) 
+y <- floor(y)
+print(y) 
+```
+
+En la segunda parte de nuestro código definimos una variable aleatoria llamada 'k' con ayuda de los comandos 'floor' y 'runif', posteriormente imprimimos en pantalla nuestra variable, después sumamos la variable 'k' y la matriz 'y'. Por ultimo el resultado de la suma se se asigna a una variable que llamamos 'z'y pegamos el resultado de la matriz
+
+```{r}
+k <- floor(runif(1,0,100)); 
+print(k)
+z <- k+y 
+print(z)
+```
+
+En la tercera parte de nuestro código definimos una variable aleatoria llamada 'x1' con ayuda de los comandos 'floor' y 'runif', despues definimos otra variable con ayuda de nuestros comandos 'ceiling' y 'runif'que nos devuelve un número entero más proximo. Despues realizamos operaciones elementales como la suma que guardamos en la variable llama 'y1' y imprimimos en la pantalla, la resta que guardamos en la variable llamada 'y2' y imprimimos en la pantalla y por ultimo la multiplicación que guardamos en la variable 'y3' y la imprimimos en pantalla.
+
+```{r}
+x1 <- floor(runif(15,0,50)) 
+x2 <- ceiling(runif(15,0,50))
+
+y1 <- x1+x2; 
+print(y1) 
+y2 <- x1-x2; 
+print(y2) 
+y3 <- x1%*%x2;
+print(y3)
+```
+
+En la cuarta parte de nuestro código definimos una variable aleatoria que con ayuda del comando 'floor' nos va a entregar el numero más chico entre 1500 valores y depues con el mando 'head' nos mostrara los primeros 30 valores y con el comando 'tail' nos mostrara los últimos 30 valores.
+
+```{r }
+w <- floor(runif(1500,0,150)); 
+print(w)
+
+head(w,30) 
+tail(w,30)
+```
+
+En la quinta parte de nuestro código definimos una matriz de 5x5 en la cual tendra puros ceros y se imprime en la pantalla. Despues creamos una matriz de 5x5 con números aleatorios que van del 1 hasta el 15 y se imprime en pantalla Con ayuda de los comandos 'colnames' y 'rownames' se etiquetan las filas y columnas.
+
+```{r }
+A <- matrix(0,5,5)
+B <- matrix(0,5,5)
+print(A)
+n <- 5; m <- 5
+for(i in 1:n){ 
+  for(j in 1:m){ 
+    B[i,j] <- ceiling(runif(1,0,15)) } } 
+print(B) 
+colnames(B)<- c('Lunes','Martes', 'Miercoles','Jueves', 'Viernes')
+rownames(B)<- c('Enero','Febrero', 'Marzo','Abril', 'Mayo') 
+print(B)
+```
+
+Creamos algunas submatrices como la matriz que nos muestra los 5 primeros datos de la fila 1 y nos la pasa a columna y los 5 primeros datos de la fila 4 y nos la pasa a columna y por ultimo mostramos en pantalla 
+
+```{r }
+B
+B[,3] 
+B[3,]
+B[1:3,]
+B[,1:3] 
+indices <- c(2,4) 
+B[indices,] 
+B[,indices]
+```
+
+EJERCICIO (1) GENERAR UNA MATRIZ ALEATORIA DE 7X7, ETIQUETAR LAS COLUMNAS Y LOS RENGLONES.
+
+```{r }
+G <- matrix(0,7,7)
+n <- 7; m <- 7 
+for(i in 1:n){ 
+  for(j in 1:m){ 
+    G[i,j] <- ceiling(runif(1,0,15)) } } 
+colnames(G)<- c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')
+rownames(G)<- c('1', '2', '3', '4', '5', '6', '7') 
+print(G)
+```
+
+GENERAR UNA SUBMATRIZ DE 3X3
+
+```{r }
+g <- matrix(0,3,3)
+g <- G[1:3,1:3]
+print(g)
+```
+
+A) QUE CONTENGA LOS PRIMEROS 3 RENGLONES Y LAS PRIMERAS 3 COLUMNAS
+
+```{r }
+g <- matrix(0,3,3)
+g <- G[1:3,1:3] 
+print(g)
+```
+
+B) QUE CONTENGA LOS PRIMEROS 3 RENGLONES Y LAS PRIMERAS 4 COLUMNAS
+
+```{r }
+g1 <- matrix(0,3,4)
+g1 <- G[1:3,1:4] 
+print(g1)
+```
+
+C) QUE CONTENGA LAS ULTIMAS 4 COLUMNAS Y LOS ULTIMOS 4 RENGLONES
+
+```{r }
+g2 <- matrix(0,4,4)
+g2 <- G[4:7,4:7] 
+print(g2)
+```
+
+D) QUE CONTENGA LAS COLUMNAS IMPARES
+
+```{r }
+g3 <- matrix(0,7,4)
+indColImpar     <- c(1,3,5,7)
+g3 <- G[,indColImpar] 
+print(g3)
+```
+
+E) QUE CONTENGA LOS RENGLONES PARES
+
+```{r }
+g4 <- matrix(0,3,7)
+indRenglonPar   <- c(2,4,6)
+g4 <- G[indRenglonPar,]
+print(g4)
+```
+
+F) QUE CONTENGA RENGLONES Y COLUMNAS IMPARES
+
+```{r }
+g5 <- matrix(0,4,4)
+indRenglonImpar <- c(1,3,5,7)
+indColImpar     <- c(1,3,5,7)
+g5 <- G[indRenglonImpar,indColImpar]; 
+print(g5)
+```
+
+G) QUE CONTENGA RENGLONES Y COLUMNAS PARES
+
+```{r }
+g6 <- matrix(0,3,3)
+indRenglonPar   <- c(2,4,6)
+indColPar       <- c(2,4,6)
+g6 <- G[indRenglonPar,indColPar]; 
+print(g6)
+```
+
+H) QUE CONTENGA RENGLONES PARES Y COLUMNAS IMPARES
+
+```{r }
+g7 <- matrix(0,3,4)
+indRenglonPar   <- c(2,4,6)
+indColImpar     <- c(1,3,5,7)
+g7 <- G[indRenglonPar,indColImpar]; 
+print(g7)
+```
+
+I) QUE CONTENGA RENGLONES IMPARES Y COLUMNAS PARES
+
+```{r }
+g8 <- matrix(0,4,3)
+indRenglonImpar <- c(1,3,5,7)
+indColPar       <- c(2,4,6)
+g8 <- G[indRenglonImpar,indColPar]; 
+print(g8)
+```
+
+EJERCICIO (2) GENERAR 4 MATRICES ALEATORIAS CON VALORES
+ ENTRE -50 Y 50, UTILIZANDO LOS COMANDOS DE: TECHO, PISO, REDONDEO y TRUNCAMIENTO.
+ 
+```{r }
+n <- 7; m <- 7
+A1 <- matrix(0,n,m)
+A2 <- matrix(0,7,7)
+A3 <- matrix(0,7,7)
+A4 <- matrix(0,7,7)
+for(i in 1:n){
+  for(j in 1:m){
+    entrada <- runif(1,-50,50)
+    A1[i,j] <- floor(entrada)
+    A2[i,j] <- ceiling(entrada)
+    A3[i,j] <- trunc(entrada)
+    A4[i,j] <- round(entrada)
+  }
+}
+```
+
+TECHO
+
+```{r }
+colnames(A1)<- c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')
+rownames(A1)<- c('1', '2', '3', '4', '5', '6', '7') 
+print(A1)
+```
+
+PISO
+
+```{r }
+colnames(A2)<- c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')
+rownames(A2)<- c('1', '2', '3', '4', '5', '6', '7') 
+print(A2)
+```
+
+REDONDEO
+
+```{r }
+colnames(A3)<- c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')
+rownames(A3)<- c('1', '2', '3', '4', '5', '6', '7') 
+print(A3)
+```
+
+TRUNCAMIENTO
+
+```{r }
+colnames(A4)<- c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')
+rownames(A4)<- c('1', '2', '3', '4', '5', '6', '7')
+print(A4)
+```
+
+Operaciones elementales y comparar
+
+
+RESTA
+
+```{r }
+A5 <- matrix(0,7,7)
+A5 <- A4-A1
+print(A5)
+```
+
+MULTIPLICACIÓN
+
+```{r }
+A6 <- matrix(0,7,7)
+A6 <- A4*A2
+print(A6)
+```
+
+SUMA
+
+```{r }
+A7 <- matrix(0,7,7)
+A7 <- A4+A3
+print(A7)
+```
+
+IGUALDAD
+
+```{r }
+A8 <- matrix(0,7,7)
+A8 <- A3==A1
+print(A8)
+```
+
+NO ES IGUAL
+
+```{r }
+A9 <- matrix(0,7,7)
+A9 <- A1!=A4
+print(A9)
+```
+
+EJERCICIO (3) GENERAR UNA MATRIZ DIAGONAL
+
+```{r }
+n <- 7; m <- 7
+GF <-  matrix(0,n,m)
+for(i in 1:n){
+  for(j in 1:m){
+    if(i==j){GF[i,j]<- ceiling(runif(1,1,2))}
+    
+  }
+}
+print(GF)
+```
+
+# SESIÓN 2:
+
+Generamos una matriz de 5x5 de números que estan entre -15 y 15, por último etiquetamos las columnas como las filas con ayuda de los comandos "colnames" y "rownames"
+
+```{r }
+n <- 5
+m <- 5
+B1 <- matrix(0,n,m) 
+for(i in 1:n){
+  for(j in 1:m){
+    B1[i,j] <- floor(runif(1,-15,15));
+  }
+}
+colnames(B1) <- c('Lunes','Martes','Miercoles',
+                 'jueves','Viernes')
+rownames(B1) <- c('Enero','Febrero','Marzo',
+                 'Abril','Mayo')
+print(B1)
+```
+
+Creamos una matriz de 7x7 de números que estan entre 0 y 15, por último etiquetamos las columnas como las filas con ayuda de los comandos "colnames" y "rownames"
+
+```{r }
+n <- 7; m <- 7
+B2 <- matrix(0,n,m)
+for(i in 1:n){
+  for(j in 1:m){
+    B2[i,j] <- floor(runif(1,0,15))
+  }
+}
+colnames(B2) <- c('Lunes','Martes','Miercoles',
+                 'jueves','Viernes','Sabado',
+                 'Domingo')
+rownames(B2) <- c('Enero','Febrero','Marzo',
+                 'Abril','Mayo','Junio',
+                 'Julio')
+print(B2)
+```
+
+Definimos los renglones pares e impares y las columnas pares e impares.
+
+```{r }
+indRenglonPar   <- c(2,4,6)
+indRenglonImpar <- c(1,3,5,7)
+indColPar       <- c(2,4,6)
+indColImpar     <- c(1,3,5,7)
+```
+
+Mostramos las 3 primeras filas y las 4 primeras columnas.
+
+```{r }
+M1 <- B2[1:3,1:4] 
+print(M1)
+```
+
+Mostramos las últimas 4 filas y las 4 últimas columnas.
+
+```{r }
+M2 <- B2[4:7,4:7] 
+print(M2)
+```
+
+Mostramos las 7 filas y las columnas impares.
+
+```{r }
+M3 <- B2[,indColImpar] 
+print(M3)
+```
+
+Mostramos las filas pares y las 7 columnas. 
+
+```{r }
+M4 <- B2[indRenglonPar,] 
+print(M4)
+```
+
+Mostramos las filas impares y las columnas impares.
+
+```{r }
+M5 <- B2[indRenglonImpar,indColImpar] 
+print(M5)
+```
+
+Mostramos las filas pares y las columnas pares.
+
+```{r }
+M6 <- B2[indRenglonPar,indColPar]
+print(M6)
+```
+
+Mostramos las filas pares y las columnas impares.
+
+```{r }
+M7 <- B2[indRenglonPar,indColImpar] 
+print(M7)
+```
+
+Mostramos las filas impares y las columnas pares.
+
+```{r }
+M8 <- B2[indRenglonImpar,indColPar] 
+print(M8)
+```
+
+Mostramos 4 matrices de 7x7 con valores aleatorios que se encuentran entre -50 y 50 
+
+```{r }
+n <- 7; m <- 7
+AA1 <- matrix(0,n,m)
+AA2 <- matrix(0,n,m)
+AA3 <- matrix(0,n,m)
+AA4 <- matrix(0,n,m)
+for(i in 1:n){
+  for(j in 1:m){
+    entrada <- runif(1,-50,50)
+    AA1[i,j] <- floor(entrada)
+    AA2[i,j] <- ceiling(entrada)
+    AA3[i,j] <- trunc(entrada)
+    AA4[i,j] <- round(entrada)
+  }
+}
+```
+
+TECHO
+
+```{r }
+print(AA1)
+```
+
+PISO
+
+```{r }
+print(AA2)
+```
+
+REDONDEO
+
+```{r }
+print(AA3)
+```
+
+TRUNCAMIENTO
+
+```{r }
+print(AA4)
+```
+
+Restas de matrices
+
+```{r }
+GHM1 <- AA4-AA1
+print(GHM1)
+GHM2 <- AA4-AA2
+print(GHM2)
+GHM3 <- AA4-AA3
+print(GHM3)
+```
+
+Creamos 3 matrices de 7x7 con varibles aleatorias que se encuentran entre -50 y 50, con ayuda del comando "if" creamos algunos espacios en donde puede caer el ciclo. 
+
+```{r }
+n <- 7; m <- 7
+D <-  matrix(0,n,m)
+L <-  matrix(0,n,m)
+U <-  matrix(0,n,m)
+for(i in 1:n){
+  for(j in 1:m){
+    if(i==j){D[i,j]<- ceiling(runif(1,-50,50))}
+    if(j<=i){L[i,j]<- ceiling(runif(1,-50,50))}
+    if(j>=i){U[i,j]<- ceiling(runif(1,-50,50))}
+  }
+}
+```
+
+Mostramos una matriz diagonal.
+
+```{r }
+print(D)
+```
+
+Mostramos una matriz triangular inferior.
+
+```{r }
+print(L)
+```
+
+Mostramos una matriz triangular superior.
+
+```{r }
+print(U)
+```
+
+Creamos 15 variables aleatorias que se encuentran entre el 0 y el 100
+
+```{r }
+n <- 15
+x <- matrix(0,1,n)
+for(i in 1:n){
+  x[i] <- round(runif(1,0,100))
+}
+print(x)
+```
+
+Sumamos las 15 variables aleatorias y se dividen entre el número de variables aleatorias
+
+```{r }
+suma   <- 0
+xbarra <- 0
+for(i in 1:n){
+  suma <- suma + x[i]
+}
+xbarra <- suma/n 
+print(xbarra)
+```
+
+Restamos las 15 variables aleatorias y el resultado se eleva al cuadrado, por último sumamos el resultado de la elevación.
+
+```{r }
+suma2    <- 0
+varianza <- 0
+for(i in 1:n){
+  termino <- x[i]-xbarra
+}
+  termino2 <- termino^2
+  suma2 <- suma2 + termino2
+  print(suma2)
+```
+
+Calculamos la varianza con el resulado de la suma y se divide entre el número de variables menos 1
+
+```{r }
+varianza <- suma2/(n-1) 
+print(varianza)
+```
+
+# SESIÓN 3:
+
+SE SIMULA UNA BASE DE DATOS CON 150 REALIZACIONES EN CADA MUESTRA, Y CONSIDERAMOS 30 MUESTRAS.
+
+Creamos la matriz
+
+```{r }
+NumVar     <- 150   # numero de datos a generar
+NumMuestra <- 30    # NUMERO DE MUESTRAS A CONSIDERAR
+Datos <- matrix(0,NumVar,NumMuestra)
+for(i in 1:NumMuestra){
+  Datos[,i] <- round(runif(NumVar, 30,150));
+}
+print(Datos)
+```
+
+VAMOS A DETERMINAR LAS MEDIDAS DE TENDENCIA CENTRAL Y DE DISPERSION PARA CADA UNA DE LAS MUESTRAS
+
+MEDIA PARA LA PRIMERA MUESTRA
+
+```{r }
+x1 <- Datos[,1]
+suma <- 0
+for(i in 1:NumVar){
+  suma <- suma + x1[i]
+}
+Promedioxg <- suma/NumVar
+print(Promedioxg)
+```
+
+AHORA VAMOS A CALCULAR LA MODA
+
+```{r }
+contando <- table(x1) 
+ordenado <- sort(contando); # ESTA INSTRUCCION CUENTA LAS VECES QUE SE REPITE CADA UNO DE LOS VALORES
+n <- length(ordenado); # CALCULAMOS EL NUMERO DE VARIABLES QUE SE TIENEN
+modax1 <- ordenado[n]
+print(modax1)
+```
+
+PARA DETERMINAR LA MEDIANA RECORDEMOS QUE ES EL VALOR QUE SE ENCUENTRA UBICADO EXACTAMENTE EN LA MITAD, PARA ESO DETERMINAREMOS EL NUMERO DE DATOS Y DEPENDIENDO DE SI ES PAR O IMPAR SE DETERMINARA LA MEDIANA
+
+```{r }
+N <- length(x1)
+if( N%%2==0){
+  print('ES UN NUMERO PAR DE DATOS')
+  xx1 <- sort(x1) # ESTA INSTRUCCION ORDENA DE MENOR A MAYOR.
+  primero <- xx1[N/2]   # OBTENEMOS EL DATO QUE ESTA AL FINAL DE LOS PRIMEROS n/2 DATOS
+  segundo <- xx1[N/2+1] # OBTENEMOS EL DATO QUE ESTA AL INICIO DE LOS SEGUNDOS n/2 DATOS
+  medianax1 <- (primero+segundo)/2
+}else{
+  xx1 <- sort(x1) # ESTA INSTRUCCION ORDENA DE MENOR A MAYOR.
+  medianax1 <- xx1[N/2+1] # OBTENEMOS EL DATO QUE ESTA A LA MITAD DE LOS DATOS
+}
+print(medianax1)
+```
+
+Mostramos en pantalla los datos obtenidos de la media, mediana y moda
+
+```{r }
+MTC1 <- matrix(0,1,3)
+MTC1[1,1] <- Promedioxg
+MTC1[1,2] <- medianax1
+MTC1[1,3] <- modax1
+colnames(MTC1) <- c('Media','Mediana','Moda') 
+rownames(MTC1) <- c('Muestra 1   ')
+print(MTC1)
+```
+
+CALCULEMOS AHORA LA PRINCIPAL MEDIDA DE DISPERSION
+
+```{r }
+sumag <- 0;
+for(i in 1:NumVar){
+  termino1 <- x1[i]-Promedioxg
+  termino12 <- termino1^2
+  sumag <- sumag + termino12
+}
+Varianza <- suma/(NumVar-1)
+DesvEst <- sqrt(Varianza)
+print(DesvEst)
+```
+
+# SESIÓN 4:
+
+Modelo de regresion lineal 
+
+ El modelo de regresion lineal es: yGORRO = BETA_{0}GORRO
+ BETA_{1}GORRO*x
+ Donde BETA_{1} = S_{xy}/S_{xx}
+ BETA_{0} = y_BARRA-BETA_{1}*x_BARRA
+ S_{xx} = [suma_{i=1}^ {n}(x_{i}-x_BARRA)^ 2]/n
+ S_{xy} = [suma_{i=1}^{n}(x_{i}-x_BARRA)*(y_{i}-y_BARRA)]/n
+
+
+Se simula una base de datos con 150 realizaciones en cada muestra, y 30 muestras
+
+```{r }
+NumVar     <- 150   # numero de datos a generar
+NumMuestra <- 30    # NUMERO DE MUESTRAS A CONSIDERAR
+Datos <- matrix(0,NumVar,NumMuestra)
+for(i in 1:NumMuestra){
+  Datos[,i] <- round(runif(NumVar, 30,150));
+}
+x1 <- abs(round(rnorm(NumVar,0,50)));
+print(x1)
+Datos <- cbind(x1,Datos); 
+print(Datos)
+```
+
+Para este caso consideramos solo 2 datos y imprimimos los resultados de cada operación, por último muestra el resultado final.
+
+```{r }
+x <- Datos[,2]; y <- Datos[,3]
+#Calculemos la media de cada variable
+suma <- 0; for(i in 1:NumVar){suma <- suma + x[i]}; xbarra <- suma/NumVar;
+print(xbarra)
+suma <- 0; for(i in 1:NumVar){suma <- suma + y[i]}; ybarra <- suma/NumVar;
+print(ybarra)
+suma <- 0; for(i in 1:NumVar){suma <- suma + (x[i]-xbarra)^2}; Sxx <- suma/NumVar;
+print(Sxx)
+suma <- 0; for(i in 1:NumVar){suma <- (x[i-xbarra])*(y[i]-ybarra)}; Sxy <- suma/NumVar;
+print(Sxy)
+Beta1 <- Sxy/Sxx; print(Beta1);
+Beta0 <- ybarra-Beta1*xbarra; 
+print(Beta0)
+```
+
+Para sacar un resulatado acercado se ultiliza la ecuacion ygorro = Beta0+Beta1*x
+
+```{r }
+ygorro <- Beta0+Beta1*x; print(ygorro)
+Error <- y-ygorro; print(Error)
+```
+
+Coeficientes de correlación
+
+ Medida específica que cuantifica la intensidad de la relación inicial entre 2  variables en un análisis de correlación 
+ 
+Metodo 1
+
+```{r }
+suma1 <- 0; suma2 <- 0;
+for(i in 1:NumVar){suma1 <- suma1 +x[i]; suma2 <- suma2 + y[i];}
+xbarra <- suma1/NumVar; ybarra <- suma2/NumVar; print(xbarra); print(ybarra)
+suma <- 0; for(i in 1:NumVar){suma <- suma + (x[i]-xbarra)*(y[i]-ybarra)}; nSxy <- suma;
+print(nSxy)
+suma <- 0; for(i in 1:NumVar){suma <- suma + (x[i]-xbarra)^2}; nSxx <- suma; rnSxx <- sqrt(nSxx);
+print(rnSxx)
+suma <- 0; for(i in 1:NumVar){suma <- suma + (y[i]-xbarra)^2}; nSyy <- suma; rnSyy <- sqrt(nSyy);
+print(rnSyy)
+rxy <- nSxx/(rnSxx*rnSyy);
+print(rxy)
+```
+
+Metodo 2
+ 
+```{r }
+suma <- 0; for(i in 1:NumVar){suma <- suma+(x[i])*y[i]}; Ter1 <- NumVar*suma;
+print(Ter1)
+suma1 <- 0; suma2 <- 0; for(i in 1:NumVar){suma1 <- suma1+x[i]; suma2 <- suma2 + y[i]}; Ter2 <- suma1*suma2;
+print(Ter2)
+Numerador <- Ter1-Ter2;
+print(Numerador)
+suma <- 0; for(i in 1:NumVar){suma <- suma+(x[i])^2}; Ter1 <- NumVar*suma - (NumVar*xbarra)^2; raiz1 <- sqrt(Ter1);
+suma <- 0; for(i in 1:NumVar){suma <- suma+(y[i])^2}; Ter2 <- NumVar*suma - (NumVar*ybarra)^2; raiz2 <- sqrt(Ter2);
+Denominador <- raiz1*raiz2; 
+print(Denominador)
+Rxy <- Numerador/Denominador;
+print(Rxy)
+```
+
+# SESIÓN 5:
+
+Distribución normal
+
+Graficas de las Funciones de Densidad de Probabilidades y La Función de Distribución Acumulada, así como, el sombreado de áreas de una Distribución normal.
+
+Generamos una secuencia de número mediante el comando $seq(\text{valor inician},\text{valor final},\text{incremento} )$.
+
+```{r secuencia,warning=FALSE}
+x<-seq(1,9, by=0.1)
+```
+
+Se avalua los números en los comandos $dnorm()$ y $pnorm()$ para generar las funciones de probabilidad y acumulativa para una distribución normal com media y Desviación estándar respectivamente
+
+```{r fpFD, warning=FALSE}
+y<-dnorm(x, 5, 1)
+z<-pnorm(x, 5, 1)
+```
+
+Graficamos ambas funciónes empleado los siguientes comandos:
+
+```{r graf01, warning=FALSE,}
+plot(x,y,xlim=c(-1,10),ylim=c(-0.08,max(y)),
+col="blue",
+type="l",
+lwd=2,
+main=(TeX("$X\\sim N(\\mu = 5, \\sigma^2 =1),                                                   f(x)=\\frac{1}{\\sigma\\sqrt{2\\pi}}
+                e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}} $" )))
+abline(h=0,col="black",cex=0.5)
+text(5,-0.05,"5")
+segments(5,0,5,dnorm(5,5,1),col="red",lwd=1)
+
+text(1,0.2,expression(f(x)==over(1, sigma*sqrt(2*pi))*e^ - over((x-5)^2,2* sigma^2)),cex=1)
+
+```
+
+```{r graf02, warning=FALSE,fig.align="center",fig.width=8}
+#x11()
+plot(x,z,type="l",lwd=2,xlim=c(-1,11),col="blue",
+     main=(TeX("Función de Distribución Acumulada, $X~N(\\mu = 5, \\sigma^2 =1),\\; F(X) = \\frac{1}{\\sigma\\sqrt{2\\pi}}\\int_{-\\infty}^{+\\infty}e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}dx $")))
+abline(h=0,col="black")
+abline(h=1,col="black")
+```
+
+Si queremos sombreaer una porción del área bajo la curva de la distribución normal, primero mediante la función Funcion Quantil encontramos el valor de la variable en donde que produce un palor de probabilidad de 0.05, 0.15, 0.75 y 0.95, respectivamente.
+
+```{r cuantiles, warning=FALSE}
+p5<-round(qnorm(0.05,5, 1),2)
+p15<-round(qnorm(0.15,5, 1),2)
+p75<-round(qnorm(0.75,5, 1),2)
+p95<-round(qnorm(0.95,5, 1),2)
+```
+
+Imprimimos los resultados generados en pantalla.
+
+```{r gra03, warning=FALSE, fig.align= 'center',fig.width=8}
+
+par(mfrow=c(1,2))
+plot(x,y,type="l",lwd=2,ylim=c(-0.06,0.4),
+      main=(TeX("$X~N(\\mu = 5, \\sigma^2 =1),\\;P(0\\leq x \\leq 3.97)$")))
+abline(h=0,col="black",cex=0.5,lwd=2)
+ap5<-seq(1,p5,0.01)
+bp5<-dnorm(ap5,5, 1)
+polygon(c(1,ap5,p5),c(0,bp5,0),col="blue",cex=0.5)
+text(p5,-0.02,p5,cex=0.8)
+#
+plot(x,z,type="l",xlim=c(-1,11), ylim=c(-0.2,1),
+     main="Función de Distribución N(5,1)")
+abline(h=0,col="red",cex=0.5,lwd=1,lty=2)
+abline(h=1,col="red",cex=0.5,lwd=1,lty=2)
+arrows(0,pnorm(p5,5,1),p15,pnorm(p5,5,1),col="blue")
+arrows(p5,pnorm(p5,5,1),p5,0,col="blue")
+points(p5,pnorm(p5,5,1),col=2,pch=16)
+text(-0.5,pnorm(p5,5,1),"0.5")
+text(p5,-0.07,"3.36")
+```
+
+
+# SESIÓN 6:
+
+La función de distribución acumulativa y una extrapolación, es decir, cuando la probabilidad es de 0.05 el valor de la variable corresponde a r
+
+Algunos ejemplos más son los siguientes.
+
+```{r gra04, warning=FALSE, fig.align='center',fig.width=8,fig.height=8}
+x11()
+par(mfrow=c(3,2))
+plot(x,y,type="l",lwd=2,ylim=c(-0.06,0.4),
+      main=(TeX("$X~N(\\mu = 5, \\sigma^2 =1),\\;P(0\\leq x \\leq 3.97)$")))
+abline(h=0,col="black",cex=0.5,lwd=2)
+ap15<-seq(1,p15,0.01)
+bp15<-dnorm(ap15,5, 1)
+polygon(c(1,ap15,p15),c(0,bp15,0),col="blue",cex=0.5)
+text(p15,-0.02,p15,cex=0.8)
+#
+plot(x,z,type="l",xlim=c(-1,11), ylim=c(-0.2,1),
+     main="Función de Distribución N(5,1)")
+abline(h=0,col="red",cex=0.5,lwd=1,lty=2)
+abline(h=1,col="red",cex=0.5,lwd=1,lty=2)
+arrows(0,pnorm(p15,5,1),p15,pnorm(p15,5,1),col="blue")
+arrows(p15,pnorm(p15,5,1),p15,0,col="blue")
+points(p15,pnorm(p15,5,1),col=2,pch=16)
+text(-0.5,pnorm(p15,5,1),"0.15")
+text(p15,-0.07,"3.36")
+#
+#P75
+plot(x,y,type="l",lwd=2,ylim=c(-0.06,0.4),
+      main=(TeX("$X~N(\\mu = 5, \\sigma^2 =1),\\;P(0\\leq x \\leq 3.97)$")))
+abline(h=0,col="black",cex=0.5,lwd=2)
+ap75<-seq(1,p75,0.01)
+bp75<-dnorm(ap75,5, 1)
+polygon(c(1,ap75,p75),c(0,bp75,0),col="blue",cex=0.5)
+text(p75,-0.02,p75,cex=0.8)
+#
+plot(x,z,type="l",xlim=c(-1,11), ylim=c(-0.2,1),
+     main="Función de Distribución N(5,1)")
+abline(h=0,col="red",cex=0.5,lwd=,lty=2)
+abline(h=1,col="red",cex=0.5,lwd=1,lty=2)
+arrows(0,0.75,p75,pnorm(p75,5,1),col="blue")
+arrows(p75,pnorm(p75,5,1),p75,0,col="blue")
+points(p75,pnorm(p75,5,1),col=2,pch=16)
+text(-0.5,pnorm(p75,5,1),"0.75")
+text(p75,-0.07,p75)
+#
+#p95
+plot(x,y,type="l",lwd=2,ylim=c(-0.06,0.4),
+      main=(TeX("$X~N(\\mu = 5, \\sigma^2 =1),\\;P(0\\leq x \\leq 3.97)$")))
+abline(h=0,col="black",cex=0.5,lwd=2)
+ap95<-seq(1,p95,0.01)
+bp95<-dnorm(ap95,5, 1)
+polygon(c(1,ap95,p95),c(0,bp95,0),col="blue",cex=0.5)
+text(p95,-0.02,p95,cex=0.8)
+#
+plot(x,z,type="l",xlim=c(-1,11), ylim=c(-0.2,1),
+     main="Función de Distribución N(5,1)")
+abline(h=0,col="red",cex=0.5,lwd=,lty=2)
+abline(h=1,col="red",cex=0.5,lwd=1,lty=2)
+arrows(0,0.95,p95,pnorm(p95,5,1),col="blue")
+arrows(p95,pnorm(p95,5,1),p95,0,col="blue")
+points(p95,pnorm(p95,5,1),col=2,pch=16)
+text(-0.5,0.95,"0.95")
+text(p95,-0.07,p95)
+
+```
+
+# SESIÓN 7:
+
+Se simula una base de datos con 150 realizaciones en cada muestra, y 30 muestras
+Y se imprime en pantalla
+
+```{r }
+NumVar <- 150
+NumMuestras <- 30
+Datos <- matrix(0,NumVar,NumMuestras)
+set.seed(150)
+for(i in 1:NumMuestras){
+  Datos[,i] <- round(runif(NumVar,30,150))
+}
+print(Datos)
+Ind <- abs(round(rnorm(150,24,10))) 
+print(Ind)
+MiBDD <- cbind(Ind,Datos)
+print(MiBDD)
+head(MiBDD,5)
+```
+
+Imprimimos los primeros 15 resultados en x
+
+```{r }
+x <- MiBDD[,1] 
+head(x,15)
+```
+
+Imprimimos los primeros 15 resultados en y
+
+```{r }
+y <- MiBDD[,2]
+head(y,15)
+```
+
+Mostramos en pantalla las graficas con los respectivos resultados, los mostramos con diferentes colores para que se pueda distinguir más facilmente y tambien mostramos de otras manera la gráfica
+
+```{r }
+barplot(contando)
+
+barplot(contando,
+        col=rainbow(15,0.55))
+
+barplot(contando,
+        col=rainbow(15,0.55),
+        ylim = c(0,20))
+
+
+barplot(contando,
+        col=rainbow(15,0.55),
+        ylim = c(0,17))
+
+barplot(contando,
+        col=rainbow(15,0.55),
+        ylim = c(0,15),
+        xlab = 'Indices',
+        ylab = 'Frecuencias',
+        main = 'Mi Primer grafica')
+grid(1.5,10)
+
+barplot(contando,
+        col  = 'pink',#rainbow(15,0.55),
+        ylim = c(0,15),
+        xlim = c(-1,55),
+        xlab = 'Indices',
+        ylab = 'Frecuencias',
+        border="red",
+        main = 'Mi Primer grafica',
+        density = 15)
+grid(1.5,10)
+#----------------------------------------------
+nbreaks = 15
+hist(y)
+hist(y,breaks=nbreaks)
+hist(y,breaks=nbreaks,
+     col=rainbow(15,0.35))
+hist(y,breaks=nbreaks,
+     col=rainbow(15,0.35),
+     main = 'Mediciones de Tiempos de traslado',
+     xlab = 'Frecuencias',
+     ylab = 'Tiempos',
+     ylim = c(0,15))
+
+hist(y,breaks=nbreaks,
+#     col=rainbow(15,0.35),
+     main = 'Mediciones de Tiempos de traslado',
+     xlab = 'Frecuencias',
+     ylab = 'Tiempos',
+     ylim = c(0,15),
+     col="darkmagenta",
+     freq=TRUE)
+Temperature <- y
+
+
+h <- hist(Temperature,breaks=nbreaks,
+          col=rainbow(15,0.35),
+          main = 'Mediciones de Tiempos de traslado',
+          xlab = 'Frecuencias',
+          ylab = 'Tiempos',
+          ylim = c(0,15),
+          freq=TRUE)
+summary(h)
+text(h$mids,h$counts,
+     labels=h$counts, adj=c(0.5, -0.5))
+
+h <- hist(Temperature,breaks=nbreaks,
+          col=rainbow(15,0.35),
+          main = 'Mediciones de Tiempos de traslado',
+          xlab = 'Frecuencias',
+          ylab = 'Tiempos',
+          ylim = c(0,15),
+          freq=TRUE)
+summary(h)
+text(h$mids,h$counts,
+     labels=h$counts, adj=c(0.5, -0.5))
+
+pdf("MiGrafica1.pdf")
+h <- hist(Temperature,breaks=nbreaks,
+          col=rainbow(15,0.35),
+          main = 'Mediciones de Tiempos de traslado',
+          xlab = 'Frecuencias',
+          ylab = 'Tiempos',
+          ylim = c(0,15),
+          freq=TRUE)
+summary(h)
+text(h$mids,h$counts,
+     labels=h$counts, adj=c(0.5, -0.5))
+dev.off()
+```
+
+Simulacion de edades y tiempos de traslado
+
+```{r }
+Edades <- rnorm(NumVar,22,1.5)
+Ttrasl <- rnorm(NumVar,90,3.5)
+plot(Edades,Ttrasl)
+```
